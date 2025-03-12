@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.example.facenote.core.model.NoteImage
 
 @Entity(
 	tableName = "noteImage",
@@ -25,4 +26,10 @@ data class NoteImageEntity(
 
 	@ColumnInfo( name = "filePath")
 	val filePath: String,
+)
+
+fun NoteImageEntity.asExtenalModel() =NoteImage(
+	id = id,
+	noteId = noteId,
+	filePath = filePath
 )

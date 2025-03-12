@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-	namespace = "com.example.facenote.core.datastore"
+	namespace = "com.example.facenote.core.storage"
 	compileSdk = 35
 
 	defaultConfig {
@@ -35,15 +35,13 @@ android {
 }
 
 dependencies {
-	implementation(project(":core:model"))
-	implementation(libs.androidx.datastore.preferences.core)
+
+	implementation(libs.androidx.core.ktx)
+	implementation(libs.androidx.appcompat)
+	implementation(libs.material)
 	implementation (libs.hilt.android)
 	ksp (libs.hilt.compiler)
-
-	testImplementation (libs.hilt.android.testing)
-	kspTest (libs.hilt.compiler)
-
 	testImplementation(libs.junit)
-	testImplementation(libs.kotlinx.coroutines.test)
-	///androidTestImplementation(libs.androidx.junit)
+	androidTestImplementation(libs.androidx.junit)
+	androidTestImplementation(libs.androidx.espresso.core)
 }

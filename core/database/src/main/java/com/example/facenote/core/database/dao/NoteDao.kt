@@ -12,34 +12,33 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	fun createNote(note: NoteEntity)
-
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	fun createNotes(notes: List<NoteEntity>)
+	suspend fun createNote(vararg note: NoteEntity): LongArray
 
 	@Update
-	fun updateNote(note: NoteEntity)
+	suspend fun updateNote(note: NoteEntity)
 
 	@Query("SELECT * FROM note WHERE id = :id")
 	fun getNote(id: Long): Flow<NoteEntity>
 
-	@Query(
-		"""
-		SELECT * FROM note WHERE isArchived = 0 AND isDeleted = 0 LIMIT :limit OFFSET :offset
-		"""
-	)
-	fun getNotes(limit: Int, offset: Int): Flow<List<NoteEntity>>
+	@Query("SELECT * FROM note WHERE state = :state  LIMIT :limit OFFSET :offset")
+	fun getNotes(state: String, limit: Int, offset: Int): Flow<List<NoteEntity>>
 
 	@Query("""
 		SELECT * FROM note WHERE title LIKE '%' || :query || '%' 
 		OR content LIKE '%' || :query || '%' 
-		AND  isArchived = 0 AND isDeleted = 0 LIMIT :limit OFFSET :offset
+		AND  state = :state  LIMIT :limit OFFSET :offset
 	""")
-	fun searchNotes(query: String,limit: Int, offset: Int): Flow<List<NoteEntity>>
+	fun searchNotes(query: String,state: String,limit: Int, offset: Int): Flow<List<NoteEntity>>
+
+	@Query("UPDATE note SET isPinned = :isPinned  WHERE id IN (:id)")
+	suspend fun pinNotes(id: List<Long>, isPinned: Boolean)
+
+	@Query("UPDATE note SET state = :state WHERE id IN (:id)")
+	suspend fun updateNoteState(id: List<Long>, state: String)
 
 	@Delete
-	fun deleteNote(note: NoteEntity)
+	suspend fun deleteNote(note: NoteEntity)
 
 	@Delete
-	fun deleteNotes(notes: List<NoteEntity>)
+	suspend fun deleteNotes(notes: List<NoteEntity>)
 }

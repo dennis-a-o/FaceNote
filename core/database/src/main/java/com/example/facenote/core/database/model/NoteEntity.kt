@@ -3,7 +3,10 @@ package com.example.facenote.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+import com.example.facenote.core.model.Note
+/*
+* Defines FaceNote note resource
+* */
 @Entity(
 	tableName = "note"
 )
@@ -17,11 +20,11 @@ data class NoteEntity(
 	@ColumnInfo(name = "content")
 	val content: String,
 
-	@ColumnInfo(name = "color", defaultValue = "0")
-	val color: Long,
+	@ColumnInfo(name = "color")
+	val color: String = "",
 
-	@ColumnInfo("background", defaultValue = "")
-	val background: String,
+	@ColumnInfo("background")
+	val background: String = "",
 
 	@ColumnInfo(name = "createdAt",defaultValue = "CURRENT_TIMESTAMP")
 	val createdAt: Long = System.currentTimeMillis(),
@@ -29,15 +32,33 @@ data class NoteEntity(
 	@ColumnInfo(name = "updatedAt", defaultValue = "CURRENT_TIMESTAMP")
 	val updatedAt: Long = System.currentTimeMillis(),
 
-	@ColumnInfo(name = "deletedAt")
-	val deletedAt: Long? = null,
+	@ColumnInfo(name = "trashedAt")
+	val trashedAt: Long? = null,
 
 	@ColumnInfo(name = "isPinned")
 	val isPinned: Boolean = false,
 
-	@ColumnInfo(name = "isArchived")
-	val isArchived: Boolean = false,
+	@ColumnInfo(name = "isLocked")
+	val isLocked: Boolean = false,
 
-	@ColumnInfo(name = "isDeleted")
-	val isDeleted: Boolean = false,
+	@ColumnInfo(name = "isChecklist")
+	val isChecklist: Boolean = false,
+
+	@ColumnInfo(name = "state")
+	val state: String = "Normal"
+)
+
+fun NoteEntity.asExternalModel() = Note(
+	id = id,
+	title = title,
+	content = content,
+	createdAt = createdAt,
+	color = color,
+	background = background,
+	updatedAt = updatedAt,
+	trashedAt = trashedAt,
+	isPinned = isPinned,
+	isLocked = isLocked,
+	isChecklist = isChecklist,
+	state = state
 )

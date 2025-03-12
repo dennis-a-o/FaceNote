@@ -39,16 +39,16 @@ class FaceNoteDatabaseTest {
 	@Test
 	fun noteDao_fetch_items_by_descending_order() {
 		runBlocking{
-			val noteEnties = listOf(
+			val noteEnties = arrayOf(
 				testNote(0, "hello1", "hello1"),
 				testNote(0, "hello2", "hello2"),
 				testNote(0, "hello3", "hello3"),
 				testNote(0, "hello4", "hello4")
 			)
 
-			noteDao.createNotes(noteEnties)
+			noteDao.createNote(*noteEnties)
 
-			val savedNotesEntity = noteDao.getNotes(20, 0).first()
+			val savedNotesEntity = noteDao.getNotes("Normal",20, 0).first()
 
 			assert(savedNotesEntity.first().createdAt == savedNotesEntity.last().createdAt)
 		}
@@ -57,16 +57,16 @@ class FaceNoteDatabaseTest {
 	@Test
 	fun noteDao_the_size_of_insert_should_equals_size_of_fetched_items() {
 		runBlocking{
-			val noteEnties = listOf(
+			val noteEnties = arrayOf(
 				testNote(0, "hello1", "hello1"),
 				testNote(0, "hello2", "hello2"),
 				testNote(0, "hello3", "hello3"),
 				testNote(0, "hello4", "hello4")
 			)
 
-			noteDao.createNotes(noteEnties)
+			noteDao.createNote(*noteEnties)
 
-			val savedNotesEntity = noteDao.getNotes(20, 0).first()
+			val savedNotesEntity = noteDao.getNotes("Normal",20, 0).first()
 
 			assertEquals(noteEnties.size, savedNotesEntity.size)
 		}
@@ -75,13 +75,13 @@ class FaceNoteDatabaseTest {
 	@Test
 	fun noteImageDao_fetch_image_by_note_id(){
 		runBlocking {
-			val noteEnties = listOf(
+			val noteEnties = arrayOf(
 				testNote(0, "hello1", "hello1"),
 				testNote(0, "hello2", "hello2"),
 				testNote(0, "hello3", "hello3"),
 			)
 
-			noteDao.createNotes(noteEnties)
+			noteDao.createNote(*noteEnties)
 
 			val noteImageEntities  = listOf(
 				testNoteImage(0,2,"file1.jpg"),
@@ -103,7 +103,6 @@ fun testNote(id:Long, title: String, content : String) = NoteEntity(
 	id = id,
 	title = title,
 	content = content,
-	color = 0,
 	background = "",
 	createdAt = System.currentTimeMillis(),
 	updatedAt = 0,

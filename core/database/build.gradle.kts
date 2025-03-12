@@ -7,7 +7,7 @@ plugins {
 
 android {
 	namespace = "com.example.facenote.core.database"
-	compileSdk = 34
+	compileSdk = 35
 
 	defaultConfig {
 		minSdk = 24
@@ -36,6 +36,7 @@ android {
 
 dependencies {
 	implementation(libs.androidx.room.runtime)
+	implementation(project(":core:model"))
 	ksp(libs.androidx.room.compiler)
 	implementation(libs.androidx.room.ktx)
 	implementation(libs.androidx.room.paging)

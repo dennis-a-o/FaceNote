@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteImageDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	fun createNoteImage(noteImage: NoteImageEntity)
+	suspend fun createNoteImage(noteImage: NoteImageEntity)
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	fun createNoteImages(noteImages: List<NoteImageEntity>)
+	suspend fun createNoteImages(noteImages: List<NoteImageEntity>)
 
 	@Query("SELECT * FROM noteImage WHERE id = :id")
 	fun getNoteImage(id: Long): Flow<NoteImageEntity>
@@ -22,8 +22,11 @@ interface NoteImageDao {
 	fun getNoteImages(noteId: Long): Flow<List<NoteImageEntity>>
 
 	@Delete
-	fun deleteNoteImage(noteImage: NoteImageEntity)
+	suspend fun deleteNoteImage(noteImage: NoteImageEntity)
 
 	@Delete
-	fun deleteNoteImages(noteImage: List<NoteImageEntity>)
+	suspend fun deleteNoteImages(noteImage: List<NoteImageEntity>)
+
+	@Query("DELETE FROM noteImage WHERE noteId = :noteId")
+	suspend fun deleteNoteImageByNoteId(noteId: Long)
 }
