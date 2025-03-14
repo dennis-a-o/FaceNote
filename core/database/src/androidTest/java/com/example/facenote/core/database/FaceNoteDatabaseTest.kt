@@ -37,6 +37,20 @@ class FaceNoteDatabaseTest {
 	}
 
 	@Test
+	fun noteDao_data_inserted_should_be_same_fetched(){
+		runBlocking {
+			val noteEnties = arrayOf(
+				testNote(1, "hello1", "hello1"),
+				testNote(2, "hello2", "hello2")
+			)
+			noteDao.createNote(*noteEnties)
+
+			val savedEntities = noteDao.getNotes(limit = 20, offset = 0)
+			assertEquals(noteEnties.toList(), savedEntities)
+		}
+	}
+
+	@Test
 	fun noteDao_fetch_items_by_descending_order() {
 		runBlocking{
 			val noteEnties = arrayOf(
@@ -48,9 +62,9 @@ class FaceNoteDatabaseTest {
 
 			noteDao.createNote(*noteEnties)
 
-			val savedNotesEntity = noteDao.getNotes("Normal",20, 0).first()
+			val savedNotesEntity = noteDao.getNotes("Normal",20, 0)//.first()
 
-			assert(savedNotesEntity.first().createdAt == savedNotesEntity.last().createdAt)
+			assert(savedNotesEntity.first().createdAt >= savedNotesEntity.last().createdAt)
 		}
 	}
 
@@ -66,7 +80,7 @@ class FaceNoteDatabaseTest {
 
 			noteDao.createNote(*noteEnties)
 
-			val savedNotesEntity = noteDao.getNotes("Normal",20, 0).first()
+			val savedNotesEntity = noteDao.getNotes("Normal",20, 0)//.first()
 
 			assertEquals(noteEnties.size, savedNotesEntity.size)
 		}
@@ -103,6 +117,7 @@ fun testNote(id:Long, title: String, content : String) = NoteEntity(
 	id = id,
 	title = title,
 	content = content,
+	state = "Normal",
 	background = "",
 	createdAt = System.currentTimeMillis(),
 	updatedAt = 0,

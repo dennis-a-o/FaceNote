@@ -68,6 +68,8 @@ dependencies {
 
 	implementation(libs.androidx.core.splashscreen)
 
+	implementation(libs.coil.compose)
+
 	implementation(libs.hilt.android)
 	ksp(libs.hilt.compiler)
 	implementation(libs.androidx.hilt.navigation.compose)

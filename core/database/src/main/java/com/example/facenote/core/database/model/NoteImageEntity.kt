@@ -28,7 +28,7 @@ data class NoteImageEntity(
 	val filePath: String,
 )
 
-fun NoteImageEntity.asExtenalModel() =NoteImage(
+fun NoteImageEntity.asExtenalModel() = NoteImage(
 	id = id,
 	noteId = noteId,
 	filePath = filePath

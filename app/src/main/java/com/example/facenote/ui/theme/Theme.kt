@@ -1,6 +1,5 @@
-package com.example.facenote.core.ui.theme
+package com.example.facenote.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

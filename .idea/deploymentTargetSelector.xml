@@ -8,10 +8,10 @@
       <SelectionState runConfigName="FaceNoteDatabaseTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="demo()">
+      <SelectionState runConfigName="ExampleInstrumentedTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ExampleInstrumentedTest">
+      <SelectionState runConfigName="noteDao_data_inserted_should_be_same_fetched()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -1,4 +1,4 @@
-package com.example.facenote.core.ui.theme
+package com.example.facenote.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

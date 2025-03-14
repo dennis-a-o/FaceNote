@@ -2,6 +2,7 @@
 agp = "8.5.2"
 core = "1.6.1"
 coreTesting = "2.2.0"
+coilCompose = "2.4.0"
 hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 kotlin = "1.9.24"
@@ -22,6 +23,8 @@ appcompat = "1.7.0"
 material = "1.12.0"
 roomRuntime = "2.6.1"
 runner = "1.6.2"
+pagingRuntimeKtx = "3.3.5"
+pagingCompose = "3.3.5"
 
 [libraries]
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
@@ -29,6 +32,8 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
+androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCore" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
@@ -38,6 +43,7 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomRuntime" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 core-ktx = { module = "androidx.test:core-ktx", version.ref = "core" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroid" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
