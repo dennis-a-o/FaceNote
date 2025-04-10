@@ -60,7 +60,7 @@ dependencies {
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.lifecycle.runtime.ktx)
 	implementation(libs.androidx.activity.compose)
-	implementation(platform(libs.androidx.compose.bom))
+	api(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.ui)
 	implementation(libs.androidx.ui.graphics)
 	implementation(libs.androidx.ui.tooling.preview)
@@ -69,8 +69,13 @@ dependencies {
 	implementation(libs.androidx.core.splashscreen)
 
 	implementation(libs.coil.compose)
+	implementation (libs.androidx.work.runtime)
+
+
+	implementation(libs.google.gson)
 
 	implementation(libs.hilt.android)
+	implementation(project(":core:navigation"))
 	ksp(libs.hilt.compiler)
 	implementation(libs.androidx.hilt.navigation.compose)
 	implementation(libs.androidx.navigation.compose)

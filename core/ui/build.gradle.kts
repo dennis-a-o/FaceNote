@@ -30,11 +30,20 @@ android {
 	kotlinOptions {
 		jvmTarget = "17"
 	}
+	buildFeatures {
+		compose = true
+	}
+	composeOptions {
+		kotlinCompilerExtensionVersion = "1.5.14"
+	}
 }
 
 dependencies {
-	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.androidx.material3)
+	api(platform(libs.androidx.compose.bom))
+	api(libs.androidx.material3)
+	implementation(libs.core)
+	implementation(project(":core:model"))
+	implementation(libs.google.gson)
 
 	//testImplementation(libs.junit)
 	//androidTestImplementation(libs.androidx.junit)

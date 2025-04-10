@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteImageDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun createNoteImage(noteImage: NoteImageEntity)
+	suspend fun createNoteImage(noteImage: NoteImageEntity): Long
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun createNoteImages(noteImages: List<NoteImageEntity>)

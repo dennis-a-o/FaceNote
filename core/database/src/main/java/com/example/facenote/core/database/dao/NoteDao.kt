@@ -18,7 +18,7 @@ interface NoteDao {
 	suspend fun updateNote(note: NoteEntity)
 
 	@Query("SELECT * FROM note WHERE id = :id")
-	fun getNote(id: Long): Flow<NoteEntity>
+	fun getNote(id: Long): Flow<NoteEntity?>
 
 	@Query("SELECT * FROM note WHERE state = :state  LIMIT :limit OFFSET :offset")
 	fun getNotes(state: String = "Normal", limit: Int, offset: Int): List<NoteEntity>

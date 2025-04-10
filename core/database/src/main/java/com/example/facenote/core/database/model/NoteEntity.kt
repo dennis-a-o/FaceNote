@@ -21,7 +21,7 @@ data class NoteEntity(
 	val content: String,
 
 	@ColumnInfo(name = "color")
-	val color: String = "",
+	val color: Int = 0,
 
 	@ColumnInfo("background")
 	val background: String = "",
@@ -31,6 +31,12 @@ data class NoteEntity(
 
 	@ColumnInfo(name = "updatedAt", defaultValue = "CURRENT_TIMESTAMP")
 	val updatedAt: Long = System.currentTimeMillis(),
+
+	@ColumnInfo(name = "remindAt")
+	val remindAt: Long? = null,
+
+	@ColumnInfo(name = "isReminded")
+	val isReminded: Boolean = false,
 
 	@ColumnInfo(name = "trashedAt")
 	val trashedAt: Long? = null,
@@ -56,6 +62,8 @@ fun NoteEntity.asExternalModel() = Note(
 	color = color,
 	background = background,
 	updatedAt = updatedAt,
+	remindAt = remindAt,
+	isReminded = isReminded,
 	trashedAt = trashedAt,
 	isPinned = isPinned,
 	isLocked = isLocked,
