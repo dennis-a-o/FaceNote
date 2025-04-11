@@ -27,7 +27,10 @@ fun NavController.navigateToNoteEditor(
 	navigate(route,navOptions)
 }
 
-fun NavGraphBuilder.noteEditorScreen(onNavigate:() -> Unit){
+fun NavGraphBuilder.noteEditorScreen(
+	onNavigateBack:() -> Unit,
+	onNavigateToNoteGallery: (Long, Int, String) -> Unit
+){
 	composable(
 		route = NOTE_EDITOR_ROUTE,
 		/*arguments = listOf(
@@ -44,6 +47,8 @@ fun NavGraphBuilder.noteEditorScreen(onNavigate:() -> Unit){
 		val viewModel: NoteEditorVIewModel = hiltViewModel(backStackEntry)
 
 		NoteEditorScreen(
+			onNavigateBack = onNavigateBack,
+			onNavigateToNoteGallery = onNavigateToNoteGallery,
 			viewModel = viewModel
 		)
 	}

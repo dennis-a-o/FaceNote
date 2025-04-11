@@ -3,10 +3,13 @@ package com.example.facenote.core.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.facenote.feature.note_editor.navigation.NOTE_EDITOR_ROUTE
 import com.example.facenote.feature.note_editor.navigation.noteEditorScreen
+import com.example.facenote.feature.note_gallery.navigation.navigateToNoteGallery
+import com.example.facenote.feature.note_gallery.navigation.noteGalleryScreen
 
 @Composable
 fun FaceNoteNavHost(
@@ -20,7 +23,20 @@ fun FaceNoteNavHost(
 		modifier = modifier
 	){
 		noteEditorScreen(
-			onNavigate = {}
+			onNavigateBack = { navHostController.navigateUp() },
+			onNavigateToNoteGallery = {noteId,selectedImageIndex, noteState->
+				navHostController.navigateToNoteGallery(
+					noteId,
+					selectedImageIndex,
+					noteState
+				)
+
+			}
+		)
+
+		noteGalleryScreen(
+			onNavigateBack = { navHostController.navigateUp() },
 		)
 	}
+
 }

@@ -36,18 +36,18 @@ fun TrashBottomSheet(
 
 	if(showConfirmDialog) {
 		AlertDialog(
-			onDismissRequest = { showConfirmDialog = false },
+			onDismissRequest = { showConfirmDialog = false; },
 			confirmButton = {
-				TextButton(onClick = onDeleteForever) {
+				TextButton(onClick = { showConfirmDialog = false; onDeleteForever() }) {
 					Text(text = "Ok")
 				}
 			},
 			dismissButton = {
-				TextButton(onClick = onDismiss) {
+				TextButton(onClick = { showConfirmDialog = false; onDismiss() }) {
 					Text(text = "Cancel")
 				}
 			},
-			title = { Text(text = "Delete this note forever?") }
+			text = { Text(text = "Delete this note forever?") }
 		)
 	}
 
@@ -80,7 +80,7 @@ fun TrashBottomSheet(
 			Row (
 				modifier = Modifier
 					.clickable {
-						onDeleteForever()
+						showConfirmDialog = true
 					}
 					.padding(16.dp)
 					.fillMaxWidth(),

@@ -180,7 +180,7 @@ class DeleteNoteUseCase @Inject constructor(
 		noteRepository.deleteNote(note)
 	}
 
-	suspend fun invoke(notes: List<Note>){
+	suspend operator fun invoke(notes: List<Note>){
 		notes.forEach { note ->
 			val noteImages = noteRepository.getNoteImages(note.id).first()
 
@@ -189,6 +189,16 @@ class DeleteNoteUseCase @Inject constructor(
 			noteRepository.deleteNoteImages(note.id)
 		}
 		noteRepository.deleteNotes(notes)
+	}
+}
+
+class DeleteNoteImageUseCase @Inject constructor(
+	private val noteRepository: NoteRepository,
+	private val imageStorage: ImageStorage
+){
+	suspend operator fun invoke(noteImage: NoteImage){
+		imageStorage.deleteImage(noteImage.filePath)
+		noteRepository.deleteNoteImage(noteImage)
 	}
 }
 

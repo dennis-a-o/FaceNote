@@ -111,6 +111,8 @@ import kotlin.contracts.contract
 
 @Composable
 fun NoteEditorScreen(
+	onNavigateBack: () -> Unit,
+	onNavigateToNoteGallery: (Long, Int, String) -> Unit,
 	viewModel: NoteEditorVIewModel
 ) {
 	val noteState by viewModel.noteState.collectAsState()
@@ -193,7 +195,16 @@ fun NoteEditorScreen(
 					.padding(paddingValues)
 					.fillMaxSize()
 			){
-				NoteEditor(noteState = noteState, viewModel = viewModel)
+				NoteEditor(
+					noteState = noteState,
+					viewModel = viewModel,
+					onClickImage = { noteImage, index ->
+						onNavigateToNoteGallery(
+							noteImage.noteId,
+							index,
+							noteState.state.getName())
+					}
+				)
 			}
 			if (showFormatBottomSheet) {
 				FormatBottomSheet(
@@ -227,9 +238,9 @@ fun NoteEditorScreen(
 			}
 			if (showTrashBottomSheet){
 				TrashBottomSheet(
-					onDismiss = { showAddBottomSheet = false },
+					onDismiss = { showTrashBottomSheet = false },
 					onRestore = { viewModel.onRestore(); showTrashBottomSheet = false },
-					onDeleteForever = { /*TODO*/ }
+					onDeleteForever = { showTrashBottomSheet = false /*TODO*/ }
 				)
 			}
 		}
@@ -239,7 +250,8 @@ fun NoteEditorScreen(
 @Composable
 private fun NoteEditor(
 	noteState: NoteEditorState,
-	viewModel: NoteEditorVIewModel
+	viewModel: NoteEditorVIewModel,
+	onClickImage: (NoteImage,Int) -> Unit
 ){
 	val context = LocalContext.current
 
@@ -288,8 +300,12 @@ private fun NoteEditor(
 				AsyncImage(
 					model = File(context.dataDir, noteImage.filePath),
 					contentDescription = "",
-					modifier = Modifier.fillMaxWidth(),
-					contentScale = ContentScale.Crop
+					modifier = Modifier
+						.fillMaxWidth()
+						.clickable {
+							onClickImage(noteImage,index)
+						},
+					contentScale = ContentScale.FillWidth
 				)
 			}
 		}

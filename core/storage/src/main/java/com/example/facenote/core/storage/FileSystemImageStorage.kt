@@ -48,14 +48,14 @@ class FileSystemImageStorage @Inject constructor(
 
 	override suspend fun getImage(filename: String): Result<File> = withContext(Dispatchers.IO){
 		kotlin.runCatching {
-			val file = File(dir,imageDir+filename)
+			val file = File(dir, filename)
 			file
 		}
 	}
 
 	override suspend fun deleteImage(filename: String): Result<Unit> = withContext(Dispatchers.IO) {
 		runCatching {
-			val file = File(dir, imageDir+filename)
+			val file = File(dir, filename)
 			if (!(file.delete())) {
 				Log.e("FileSystemImageStorage","Could not delete file ${file.name}")
 			}
