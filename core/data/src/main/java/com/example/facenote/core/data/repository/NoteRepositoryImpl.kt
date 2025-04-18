@@ -11,6 +11,7 @@ import com.example.facenote.core.model.Note
 import com.example.facenote.core.model.NoteImage
 import com.example.facenote.core.model.NoteState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -60,7 +61,7 @@ class NoteRepositoryImpl @Inject constructor(
 						state = state,
 						limit = pageSize,
 						offset = ((page - 1) * pageSize)
-					)
+					).first()
 
 					LoadResult.Page(
 						data = data.map { it.asExternalModel() },

@@ -1,6 +1,8 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	id ("com.google.dagger.hilt.android")
+	id("com.google.devtools.ksp")
 }
 
 android {
@@ -28,15 +30,35 @@ android {
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlinOptions {
-		jvmTarget = "1.8"
+		jvmTarget = "17"
+	}
+	buildFeatures {
+		compose = true
+	}
+	composeOptions {
+		kotlinCompilerExtensionVersion = "1.5.14"
 	}
 }
 
 dependencies {
+	implementation(project(":core:ui"))
+	implementation(project(":core:model"))
+	implementation(project(":core:domain"))
+	implementation(project(":core:data"))
+	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.material3)
+	implementation(libs.androidx.ui.tooling.preview)
+	implementation(libs.androidx.navigation.compose)
+	implementation(libs.hilt.android)
 
-	implementation(libs.androidx.core.ktx)
-	implementation(libs.androidx.appcompat)
-	implementation(libs.material)
+	ksp(libs.hilt.compiler)
+	implementation(libs.androidx.hilt.navigation.compose)
+
+	implementation (libs.androidx.paging.runtime.ktx)
+	implementation (libs.androidx.paging.compose)
+	
+	implementation(libs.coil.compose)
+
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

@@ -29,6 +29,10 @@ pagingRuntimeKtx = "3.3.6"
 pagingCompose = "3.3.6"
 pagingCommonAndroid = "3.3.6"
 coreVersion = "1.15.0"
+ui = "1.7.8"
+uiTestManifest = "1.7.8"
+uiTooling = "1.7.8"
+uiToolingPreview = "1.7.8"
 workRuntime = "2.10.0"
 
 [libraries]
@@ -75,6 +79,10 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }
 core = { group = "androidx.core", name = "core", version.ref = "coreVersion" }
+ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifest" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
+ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

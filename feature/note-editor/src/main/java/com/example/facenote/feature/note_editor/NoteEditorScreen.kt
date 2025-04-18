@@ -1,14 +1,9 @@
 package com.example.facenote.feature.note_editor
 
-import android.content.Context
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,11 +11,9 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,22 +21,12 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -54,35 +37,26 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.layout.LayoutInfo
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
@@ -91,11 +65,9 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import com.example.facenote.core.model.NoteImage
 import com.example.facenote.core.model.NoteState
 import com.example.facenote.core.ui.R
@@ -105,9 +77,7 @@ import com.example.facenote.feature.note_editor.sheet.AddBottomSheet
 import com.example.facenote.feature.note_editor.sheet.BackgroundBottomSheet
 import com.example.facenote.feature.note_editor.sheet.FormatBottomSheet
 import com.example.facenote.feature.note_editor.sheet.TrashBottomSheet
-import okhttp3.internal.toImmutableList
 import java.io.File
-import kotlin.contracts.contract
 
 @Composable
 fun NoteEditorScreen(
@@ -156,7 +126,7 @@ fun NoteEditorScreen(
 				NoteEditorTopBar(
 					noteState = noteState,
 					onClickReminder = { /*  TODO */ },
-					onClickBack = { viewModel.saveNote() },
+					onClickBack = { viewModel.saveNote(); onNavigateBack() },
 					onClickTrash = { viewModel.onTrash() },
 					onClickShare = {  viewModel.onShare(content) },
 					onTogglePin = { viewModel.onPin() },
@@ -240,7 +210,7 @@ fun NoteEditorScreen(
 				TrashBottomSheet(
 					onDismiss = { showTrashBottomSheet = false },
 					onRestore = { viewModel.onRestore(); showTrashBottomSheet = false },
-					onDeleteForever = { showTrashBottomSheet = false /*TODO*/ }
+					onDeleteForever = { viewModel.onDelete(); showTrashBottomSheet = false  }
 				)
 			}
 		}
@@ -576,9 +546,8 @@ private fun updateEditorContent(
 	)
 }
 
-//Apply styles to text
 private fun applyStyle(
-	style:SpanStyle,
+	style: SpanStyle,
 	currentValue: TextFieldValue,
 	onValueChange:(TextFieldValue) -> Unit
 ){
@@ -632,14 +601,14 @@ private fun  NoteEditorTopBar(
 				IconButton(onClick = { onTogglePin() }) {
 					if (noteState.isPinned) {
 						Icon(
-							painter = painterResource(R.drawable.ic_push_pin_outlined),
-							contentDescription = ""
-						)
-					} else {
-						Icon(
 							painter = painterResource(R.drawable.ic_push_pin_filled),
 							contentDescription = "",
 							tint = MaterialTheme.colorScheme.primary
+						)
+					} else {
+						Icon(
+							painter = painterResource(R.drawable.ic_push_pin_outlined),
+							contentDescription = ""
 						)
 					}
 				}
@@ -777,7 +746,7 @@ private fun NoteEditorFooter(
 					)
 				) {
 					Icon(
-						painter = painterResource(R.drawable.ic_check),
+						painter = painterResource(R.drawable.ic_save_outlined),
 						contentDescription = "Save",
 						modifier = Modifier.size(20.dp)
 					)

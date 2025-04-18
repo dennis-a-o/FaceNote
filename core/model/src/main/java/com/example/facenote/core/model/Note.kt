@@ -16,3 +16,4 @@ data class Note(
 	val isChecklist: Boolean,
 	val state: String
 )
+

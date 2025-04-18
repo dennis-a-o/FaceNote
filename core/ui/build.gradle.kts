@@ -39,10 +39,13 @@ android {
 }
 
 dependencies {
-	api(platform(libs.androidx.compose.bom))
-	api(libs.androidx.material3)
-	implementation(libs.core)
 	implementation(project(":core:model"))
+	implementation(libs.material3)
+	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.ui)
+	implementation(libs.ui.tooling.preview)
+	debugImplementation(libs.ui.tooling)
+	debugImplementation(libs.ui.test.manifest)
 	implementation(libs.google.gson)
 
 	//testImplementation(libs.junit)

@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+	implementation(project(":feature:notes"))
 	implementation(project(":feature:note-editor"))
 	implementation(project(":feature:note-gallery"))
 	implementation(platform(libs.androidx.compose.bom))

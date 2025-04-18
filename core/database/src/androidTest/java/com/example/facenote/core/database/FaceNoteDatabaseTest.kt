@@ -62,7 +62,7 @@ class FaceNoteDatabaseTest {
 
 			noteDao.createNote(*noteEnties)
 
-			val savedNotesEntity = noteDao.getNotes("Normal",20, 0)//.first()
+			val savedNotesEntity = noteDao.getNotes("Normal",20, 0).first()
 
 			assert(savedNotesEntity.first().createdAt >= savedNotesEntity.last().createdAt)
 		}
@@ -80,7 +80,7 @@ class FaceNoteDatabaseTest {
 
 			noteDao.createNote(*noteEnties)
 
-			val savedNotesEntity = noteDao.getNotes("Normal",20, 0)//.first()
+			val savedNotesEntity = noteDao.getNotes("Normal",20, 0).first()
 
 			assertEquals(noteEnties.size, savedNotesEntity.size)
 		}

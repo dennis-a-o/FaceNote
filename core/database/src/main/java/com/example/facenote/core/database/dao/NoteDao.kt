@@ -20,8 +20,11 @@ interface NoteDao {
 	@Query("SELECT * FROM note WHERE id = :id")
 	fun getNote(id: Long): Flow<NoteEntity?>
 
-	@Query("SELECT * FROM note WHERE state = :state  LIMIT :limit OFFSET :offset")
-	fun getNotes(state: String = "Normal", limit: Int, offset: Int): List<NoteEntity>
+	@Query("""
+		SELECT * FROM note WHERE state = :state  
+		ORDER BY isPinned DESC, createdAt DESC 
+		LIMIT :limit OFFSET :offset""")
+	 fun getNotes(state: String = "Normal", limit: Int, offset: Int): Flow<List<NoteEntity>>
 
 	@Query("""
 		SELECT * FROM note WHERE title LIKE '%' || :query || '%' 

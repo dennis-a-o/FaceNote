@@ -1,13 +1,9 @@
 package com.example.facenote.feature.note_editor
 
-import android.content.ContentProvider
-import android.content.ContentProviderClient
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.input.TextFieldValue
@@ -49,14 +45,14 @@ class NoteEditorVIewModel @Inject constructor(
 	private val pinNoteUseCase: PinNoteUseCase,
 	savedStateHandle: SavedStateHandle
 ):ViewModel() {
-	private var noteId: Long? =4//savedStateHandle["noteId"]
+	private var noteId: Long = savedStateHandle["noteId"] ?: 0
 	private var isCheckList: Boolean = savedStateHandle["isCheckList"] ?: false
 	private val _noteState = MutableStateFlow(NoteEditorState(isChecklist = isCheckList))
 
 	val noteState = _noteState.asStateFlow()
 
 	init {
-		noteId?.let { loadNote(it) }
+		if (noteId > 0) loadNote(noteId)
 	}
 
 	fun onTitleChange(title: String){
@@ -82,12 +78,12 @@ class NoteEditorVIewModel @Inject constructor(
 	fun saveBitmapImage(bitmap: Bitmap){
 		viewModelScope.launch {
 			try {
-				if (noteId == null || noteId == 0L){
+				if (noteId < 0){
 					_noteState.update {
 						it.copy(imageBitmaps = it.imageBitmaps.plus(bitmap))
 					}
 				}else{
-					saveNoteImageUseCase.invoke(bitmap,noteId!!).getOrThrow().let { image ->
+					saveNoteImageUseCase.invoke(bitmap,noteId).getOrThrow().let { image ->
 						_noteState.update {
 							it.copy(images = it.images + image)
 						}
@@ -107,12 +103,12 @@ class NoteEditorVIewModel @Inject constructor(
 	fun saveUriImage(uri: Uri){
 		viewModelScope.launch {
 			try {
-				if (noteId == null || noteId == 0L){
+				if (noteId < 0){
 					_noteState.update {
 						it.copy(imageUris = it.imageUris.plus(uri))
 					}
 				}else{
-					saveNoteImageUseCase.invoke(uri,noteId!!).getOrThrow().let {image ->
+					saveNoteImageUseCase.invoke(uri,noteId).getOrThrow().let {image ->
 						_noteState.update {
 							it.copy(images = it.images + image)
 						}
@@ -133,21 +129,25 @@ class NoteEditorVIewModel @Inject constructor(
 		viewModelScope.launch {
 			try {
 				val note = _noteState.value.toNote(noteId)
-				if (noteId != null){
+				if (noteId > 0){
 					updateNoteUseCase(note)
 				}else{
-					val result = saveNoteUseCase.invoke(
-						note= note,
-						uris = _noteState.value.imageUris,
-						bitmaps = _noteState.value.imageBitmaps
-					)
+					if (!isNoteEmpty()) {
+						val result = saveNoteUseCase(
+							note = note,
+							uris = _noteState.value.imageUris,
+							bitmaps = _noteState.value.imageBitmaps
+						)
 
-					if (result.isSuccess) {
-						noteId = result.getOrNull()
-						_noteState.update { NoteEditorState() }
-						noteId?.let { loadNote(it) }
-					}else {
-						throw Exception(result.exceptionOrNull())
+						if (result.isSuccess) {
+							noteId = result.getOrDefault(-1)
+							_noteState.update { NoteEditorState() }
+							if (noteId > 0) {
+								loadNote(noteId)
+							}
+						} else {
+							throw Exception(result.exceptionOrNull())
+						}
 					}
 				}
 			}catch (e: Exception){
@@ -163,12 +163,12 @@ class NoteEditorVIewModel @Inject constructor(
 
 	fun onArchive(){
 		viewModelScope.launch {
-			noteId?.let { id ->
+			if(noteId > 0) {
 				if(_noteState.value.state != NoteState.ARCHIVE) {
-					setNoteStateUseCase.invoke(id, NoteState.ARCHIVE)
+					setNoteStateUseCase.invoke(noteId, NoteState.ARCHIVE)
 					_noteState.update { it.copy(state = NoteState.ARCHIVE) }
 				}else {
-					setNoteStateUseCase.invoke(id, NoteState.NORMAL)
+					setNoteStateUseCase.invoke(noteId, NoteState.NORMAL)
 					_noteState.update { it.copy(state = NoteState.NORMAL) }
 				}
 			}
@@ -177,8 +177,8 @@ class NoteEditorVIewModel @Inject constructor(
 
 	fun onTrash(){
 		viewModelScope.launch {
-			noteId?.let { id ->
-				setNoteStateUseCase.invoke(id, NoteState.TRASH)
+			if (noteId > 0) {
+				setNoteStateUseCase.invoke(noteId, NoteState.TRASH)
 				_noteState.update {
 					it.copy(state = NoteState.TRASH)
 				}
@@ -188,16 +188,16 @@ class NoteEditorVIewModel @Inject constructor(
 
 	fun onDelete(){
 		viewModelScope.launch {
-			noteId?.let { id ->
-				deleteNoteUseCase(_noteState.value.toNote(id))
+			if (noteId > 0) {
+				deleteNoteUseCase(_noteState.value.toNote(noteId))
 			}
 		}
 	}
 
 	fun onRestore(){
 		viewModelScope.launch {
-			noteId?.let { id ->
-				setNoteStateUseCase.invoke(id, NoteState.NORMAL)
+			if (noteId > 0){
+				setNoteStateUseCase.invoke(noteId, NoteState.NORMAL)
 				_noteState.update {
 					it.copy(state = NoteState.NORMAL)
 				}
@@ -244,8 +244,8 @@ class NoteEditorVIewModel @Inject constructor(
 
 	fun onPin(){
 		viewModelScope.launch {
-			noteId?.let { id ->
-				pinNoteUseCase(id, !(_noteState.value.isPinned))
+			if (noteId > 0) {
+				pinNoteUseCase(noteId, !(_noteState.value.isPinned))
 				_noteState.update {
 					it.copy(isPinned = !(it.isPinned))
 				}
@@ -299,6 +299,16 @@ class NoteEditorVIewModel @Inject constructor(
 			}
 		}
 	}
+
+	private fun isNoteEmpty():Boolean{
+		val isContentEmpty = if(_noteState.value.isChecklist) {
+			_noteState.value.checkListContent.all { it.content.isEmpty() }
+		}else {
+			_noteState.value.textFieldValue.text.isEmpty()
+		}
+
+		return (_noteState.value.title.isEmpty() && isContentEmpty)
+	}
 }
 
 data class NoteEditorState (
@@ -325,8 +335,8 @@ data class NoteEditorState (
 	val success: String? = null
 )
 
-internal fun NoteEditorState.toNote(id: Long?) = Note(
-	id = id ?: 0,
+internal fun NoteEditorState.toNote(id: Long) = Note(
+	id = id ,
 	title = title,
 	content = if (isChecklist){
 		NoteContentUtil.checkListToJson(checkListContent)
@@ -335,7 +345,7 @@ internal fun NoteEditorState.toNote(id: Long?) = Note(
 	},
 	color = color.toArgb(),
 	background = background,
-	createdAt = if(id == null) System.currentTimeMillis() else createdAt,
+	createdAt = if(id <= 0) System.currentTimeMillis() else createdAt,
 	updatedAt = System.currentTimeMillis(),
 	remindAt = remindAt,
 	isReminded = isReminded,
