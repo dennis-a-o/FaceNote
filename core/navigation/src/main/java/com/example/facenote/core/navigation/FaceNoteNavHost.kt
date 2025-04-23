@@ -11,6 +11,8 @@ import com.example.facenote.feature.note_editor.navigation.navigateToNoteEditor
 import com.example.facenote.feature.note_editor.navigation.noteEditorScreen
 import com.example.facenote.feature.note_gallery.navigation.navigateToNoteGallery
 import com.example.facenote.feature.note_gallery.navigation.noteGalleryScreen
+import com.example.facenote.feature.note_search.navigateToNoteSearch
+import com.example.facenote.feature.note_search.noteSearchScreen
 import com.example.facenote.feature.notes.navigation.NOTES_ROUTE
 import com.example.facenote.feature.notes.navigation.notesScreen
 
@@ -26,7 +28,8 @@ fun FaceNoteNavHost(
 		modifier = modifier
 	){
 		notesScreen(
-			onNavigateToNoteEditor = navHostController::navigateToNoteEditor
+			onNavigateToNoteEditor = navHostController::navigateToNoteEditor,
+			onNavigateToNoteSearch = navHostController::navigateToNoteSearch
 		)
 
 		noteEditorScreen(
@@ -43,6 +46,11 @@ fun FaceNoteNavHost(
 
 		noteGalleryScreen(
 			onNavigateBack = { navHostController.navigateUp() },
+		)
+
+		noteSearchScreen(
+			onNavigateBack = { navHostController.navigateUp() },
+			onNavigateToNoteEditor =  navHostController::navigateToNoteEditor
 		)
 	}
 

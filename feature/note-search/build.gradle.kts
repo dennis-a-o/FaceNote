@@ -1,11 +1,13 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	id ("com.google.dagger.hilt.android")
+	id("com.google.devtools.ksp")
 }
 
 android {
-	namespace = "com.example.facenote.core.navigation"
-	compileSdk = 35
+	namespace = "com.example.facenote.feature.note_search"
+	compileSdk = 34
 
 	defaultConfig {
 		minSdk = 24
@@ -39,12 +41,24 @@ android {
 }
 
 dependencies {
-	implementation(project(":feature:notes"))
-	implementation(project(":feature:note-editor"))
-	implementation(project(":feature:note-gallery"))
-	implementation(project(":feature:note-search"))
+	implementation(project(":core:ui"))
+	implementation(project(":core:model"))
+	implementation(project(":core:domain"))
+	implementation(project(":core:data"))
 	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.material3)
+	implementation(libs.androidx.ui.tooling.preview)
 	implementation(libs.androidx.navigation.compose)
+	implementation(libs.hilt.android)
+
+	ksp(libs.hilt.compiler)
+	implementation(libs.androidx.hilt.navigation.compose)
+
+	implementation(libs.androidx.paging.runtime.ktx)
+	implementation(libs.androidx.paging.compose)
+
+	implementation(libs.coil.compose)
+
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

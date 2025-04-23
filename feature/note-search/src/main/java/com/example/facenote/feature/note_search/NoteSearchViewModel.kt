@@ -1,12 +1,13 @@
-package com.example.facenote.feature.notes
+package com.example.facenote.feature.note_search
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.map
-import com.example.facenote.core.domain.GetNotesUseCase
 import com.example.facenote.core.domain.PinNoteUseCase
+import com.example.facenote.core.domain.SearchNoteUseCase
 import com.example.facenote.core.domain.SetNoteStateUseCase
 import com.example.facenote.core.model.NoteState
 import com.example.facenote.core.ui.model.NoteUi
@@ -21,19 +22,32 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesViewModel @Inject constructor(
-	private val getNotesUseCase: GetNotesUseCase,
+class NoteSearchViewModel @Inject constructor(
+	private val searchNoteUseCase: SearchNoteUseCase,
 	private val pinNoteUseCase: PinNoteUseCase,
-	private val setNoteStateUseCase: SetNoteStateUseCase
+	private val setNoteStateUseCase: SetNoteStateUseCase,
+	savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
+	private val _noteState: NoteState = when(savedStateHandle["noteSte"] ?: ""){
+		"Trash" -> NoteState.TRASH
+		"Archive" -> NoteState.ARCHIVE
+		else -> NoteState.NORMAL
+	}
+	private val _query = MutableStateFlow("")
 	private val _selectState = MutableStateFlow(SelectState())
 
-	val notesPaging = Pager(PagingConfig(pageSize = 20, initialLoadSize = 20)){
-		getNotesUseCase()
+	val noteSearchPager = Pager(PagingConfig(pageSize = 20, initialLoadSize = 20)){
+		searchNoteUseCase(_query.value,_noteState)
 	}.flow.map { it.map { note -> note.toNoteUi() } }
 
+	val query = _query.asStateFlow()
+
 	val selectState = _selectState.asStateFlow()
+
+	fun onQueryChange(query: String){
+		_query.value = query
+	}
 
 	fun onSelect(noteUi: NoteUi){
 		if (noteUi in _selectState.value.selected){

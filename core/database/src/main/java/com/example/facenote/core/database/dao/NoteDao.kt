@@ -24,14 +24,14 @@ interface NoteDao {
 		SELECT * FROM note WHERE state = :state  
 		ORDER BY isPinned DESC, createdAt DESC 
 		LIMIT :limit OFFSET :offset""")
-	 fun getNotes(state: String = "Normal", limit: Int, offset: Int): Flow<List<NoteEntity>>
+	 fun getNotes(state: String, limit: Int, offset: Int): Flow<List<NoteEntity>>
 
 	@Query("""
-		SELECT * FROM note WHERE title LIKE '%' || :query || '%' 
-		OR content LIKE '%' || :query || '%' 
-		AND  state = :state  LIMIT :limit OFFSET :offset
+		SELECT * FROM note WHERE (title LIKE '%' || :query || '%' 
+		OR content LIKE '%' || :query || '%' )
+		AND state = :state  LIMIT :limit OFFSET :offset
 	""")
-	fun searchNotes(query: String,state: String = "Normal",limit: Int, offset: Int): List<NoteEntity>
+	fun searchNotes(query: String, state: String,limit: Int, offset: Int): Flow<List<NoteEntity>>
 
 	@Query("UPDATE note SET isPinned = :isPinned  WHERE id IN (:id)")
 	suspend fun pinNotes(id: List<Long>, isPinned: Boolean)

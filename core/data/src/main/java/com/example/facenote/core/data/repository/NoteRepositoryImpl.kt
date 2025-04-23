@@ -106,7 +106,7 @@ class NoteRepositoryImpl @Inject constructor(
 						state = state.getName(),
 						limit = pageSize,
 						offset = ((page - 1) * pageSize)
-					)
+					).first()
 
 					LoadResult.Page(
 						data = data.map { it.asExternalModel() },
@@ -114,6 +114,7 @@ class NoteRepositoryImpl @Inject constructor(
 						nextKey = if (data.isEmpty()) null else page + 1
 					)
 				} catch (e:  Exception){
+					e.printStackTrace()
 					LoadResult.Error(e)
 				}
 			}

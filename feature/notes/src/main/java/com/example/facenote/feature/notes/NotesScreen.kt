@@ -53,11 +53,13 @@ import com.example.facenote.core.ui.R
 import com.example.facenote.core.ui.component.NoteError
 import com.example.facenote.core.ui.component.NoteItem
 import com.example.facenote.core.ui.component.NoteProgressIndicator
+import com.example.facenote.core.ui.component.NoteSelectTopBar
 import kotlinx.coroutines.launch
 
 @Composable
 fun NotesScreen (
 	onNavigateToNoteEditor: (Long,Boolean) -> Unit,
+	onNavigateToNoteSearch:(String?)  -> Unit,
 	viewModel: NotesViewModel = hiltViewModel()
 ){
 	val  lazyPagingNotes = viewModel.notesPaging.collectAsLazyPagingItems()
@@ -86,7 +88,7 @@ fun NotesScreen (
 		Scaffold (
 			topBar = {
 				if(selectState.isSelecting){
-					NotesSelectTopBar(
+					NoteSelectTopBar(
 						selectState = selectState,
 						onCancel = { viewModel.onSelectClear() },
 						onClickPin = {
@@ -106,7 +108,7 @@ fun NotesScreen (
 					NotesTopBar(
 						onClickShowDrawer = { scope.launch { drawerState.open() } },
 						onToggleGridList = { isGrid = !isGrid },
-						onClickSearch = { /*TODO*/ },
+						onClickSearch = { onNavigateToNoteSearch(null) },
 						isGrid = isGrid
 					)
 				}
@@ -292,61 +294,6 @@ private fun NotesTopBar(
 						contentDescription = "drawer"
 					)
 				}
-			}
-		}
-	)
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun NotesSelectTopBar(
-	selectState: SelectState,
-	onCancel: () -> Unit,
-	onClickPin: () -> Unit,
-	onClickArchive:() -> Unit,
-	onClickDelete:() -> Unit
-){
-	TopAppBar(
-		title = { },
-		modifier = Modifier.shadow(1.dp),
-		navigationIcon = {
-			Row (verticalAlignment = Alignment.CenterVertically){
-				IconButton(onClick = onCancel) {
-					Icon(
-						painter = painterResource(R.drawable.ic_close),
-						contentDescription = "Cancel"
-					)
-				}
-				Spacer(Modifier.width(8.dp))
-				Text(text = "${selectState.selected.size}")
-			}
-		},
-		actions = {
-			IconButton(onClick = onClickPin) {
-				if (selectState.pin) {
-					Icon(
-						painter = painterResource(R.drawable.ic_push_pin_outlined),
-						contentDescription = "Pin"
-					)
-				} else {
-					Icon(
-						painter = painterResource(R.drawable.ic_push_pin_filled),
-						contentDescription = "Pin",
-						tint = MaterialTheme.colorScheme.primary
-					)
-				}
-			}
-			IconButton(onClick = onClickArchive) {
-				Icon(
-					painter = painterResource(R.drawable.ic_archive_outline),
-					contentDescription = "Archive"
-				)
-			}
-			IconButton(onClick = onClickDelete) {
-				Icon(
-					painter = painterResource(R.drawable.ic_delete_outline),
-					contentDescription = "Delete"
-				)
 			}
 		}
 	)
