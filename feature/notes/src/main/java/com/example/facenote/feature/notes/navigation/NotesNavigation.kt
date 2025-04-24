@@ -16,14 +16,22 @@ fun NavController.navigateTONotesRoute(
 
 fun NavGraphBuilder.notesScreen(
 	onNavigateToNoteEditor: (Long, Boolean) -> Unit,
-	onNavigateToNoteSearch: (String?) -> Unit
+	onNavigateToNoteSearch: (String?) -> Unit,
+	onNavigateToArchive: () -> Unit,
+	onNavigateToTrash: () -> Unit,
+	onNavigateToSetting: () -> Unit,
+	onNavigateToBackUp: () -> Unit,
 ){
 	composable(
 		route = NOTES_ROUTE,
 	){
 		NotesScreen(
 			onNavigateToNoteEditor = onNavigateToNoteEditor,
-			onNavigateToNoteSearch = onNavigateToNoteSearch
+			onNavigateToNoteSearch = onNavigateToNoteSearch,
+			onNavigateToArchive = onNavigateToArchive,
+			onNavigateToTrash = onNavigateToTrash,
+			onNavigateToSetting = onNavigateToSetting,
+			onNavigateToBackUp = onNavigateToBackUp,
 		)
 	}
 }

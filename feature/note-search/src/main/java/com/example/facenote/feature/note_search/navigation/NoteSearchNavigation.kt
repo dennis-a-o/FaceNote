@@ -1,4 +1,4 @@
-package com.example.facenote.feature.note_search
+package com.example.facenote.feature.note_search.navigation
 
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -7,6 +7,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.facenote.feature.note_search.NoteSearchScreen
+import com.example.facenote.feature.note_search.NoteSearchViewModel
 
 const val NOTE_STATE = "noteState"
 const val NOTE_SEARCH_ROUTE_BASE = "note_search"
@@ -16,7 +18,7 @@ fun  NavController.navigateToNoteSearch(
 	noteState: String? = null,
 	navOptions: NavOptions? = null
 ) {
-	val route = "${NOTE_SEARCH_ROUTE_BASE}/$noteState"
+	val route = "$NOTE_SEARCH_ROUTE_BASE/$noteState"
 	navigate(route,navOptions)
 }
 

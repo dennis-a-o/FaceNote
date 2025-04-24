@@ -60,6 +60,10 @@ import kotlinx.coroutines.launch
 fun NotesScreen (
 	onNavigateToNoteEditor: (Long,Boolean) -> Unit,
 	onNavigateToNoteSearch:(String?)  -> Unit,
+	onNavigateToArchive: () -> Unit,
+	onNavigateToTrash: () -> Unit,
+	onNavigateToSetting: () -> Unit,
+	onNavigateToBackUp: () -> Unit,
 	viewModel: NotesViewModel = hiltViewModel()
 ){
 	val  lazyPagingNotes = viewModel.notesPaging.collectAsLazyPagingItems()
@@ -77,9 +81,10 @@ fun NotesScreen (
 	ModalNavigationDrawer(
 		drawerContent = {
 			DrawerContent(
-				onNavigateToArchive = { /*TODO*/ },
-				onNavigateToTrash = { /*TODO*/ },
-				onNavigateToSetting = { /*TODO*/ },
+				onNavigateToArchive =  onNavigateToArchive,
+				onNavigateToTrash = onNavigateToTrash,
+				onNavigateToSetting = onNavigateToSetting,
+				onNavigateToBackUp = onNavigateToBackUp,
 				closeDrawer = { scope.launch {  drawerState.close() } }
 			)
 		},
@@ -171,6 +176,7 @@ private fun DrawerContent(
 	onNavigateToArchive: () -> Unit,
 	onNavigateToTrash: () -> Unit,
 	onNavigateToSetting: () -> Unit,
+	onNavigateToBackUp: () -> Unit,
 	closeDrawer: () -> Unit
 ){
 	ModalDrawerSheet (
@@ -226,6 +232,18 @@ private fun DrawerContent(
 			},
 			selected = false,
 			onClick = { onNavigateToSetting(); closeDrawer() },
+			modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+		)
+		NavigationDrawerItem(
+			label = { Text(text = "Backup") },
+			icon = {
+				Icon(
+					painter = painterResource(R.drawable.ic_backup_outlined),
+					contentDescription = ""
+				)
+			},
+			selected = false,
+			onClick = { onNavigateToBackUp(); closeDrawer() },
 			modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
 		)
 	}
