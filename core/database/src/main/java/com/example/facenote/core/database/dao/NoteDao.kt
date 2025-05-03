@@ -39,6 +39,21 @@ interface NoteDao {
 	@Query("UPDATE note SET state = :state WHERE id IN (:id)")
 	suspend fun updateNoteState(id: List<Long>, state: String)
 
+	@Query("SELECT id FROM note WHERE state = 'Trash'")
+	fun getTrashNoteIdList(): Flow<List<Long>>
+
+	@Query("UPDATE note SET remindAt = :remindAt WHERE id = :noteId")
+	suspend fun setNoteReminder(noteId: Long, remindAt: Long)
+
+	@Query("UPDATE note SET remindAt = null, isReminded = 0 WHERE id = :noteId")
+	suspend fun clearNoteReminder(noteId: Long)
+
+	@Query("UPDATE note SET isReminded = 1 WHERE id = :noteId")
+	suspend fun setNoteReminderDone(noteId: Long)
+
+	@Query("DELETE FROM note WHERE state = 'Trash'")
+	suspend fun deleteTrashNote()
+
 	@Delete
 	suspend fun deleteNote(note: NoteEntity)
 

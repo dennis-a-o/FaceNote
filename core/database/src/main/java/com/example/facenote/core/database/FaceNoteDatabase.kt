@@ -14,7 +14,7 @@ import com.example.facenote.core.database.model.NoteImageEntity
 	],
 	version = 1,
 	autoMigrations = [],
-	exportSchema = true
+	exportSchema = false
 )
 abstract class FaceNoteDatabase: RoomDatabase() {
 	abstract fun noteDao(): NoteDao

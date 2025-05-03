@@ -121,6 +121,24 @@ class NoteRepositoryImpl @Inject constructor(
 		}
 	}
 
+	override suspend fun deleteAllTrash() {
+		noteDao.deleteTrashNote()
+	}
+
+	override fun getTrashNoteIdList(): Flow<List<Long>> = noteDao.getTrashNoteIdList()
+
+	override suspend fun setNoteReminder(noteId: Long, remindAt: Long) {
+		noteDao.setNoteReminder(noteId, remindAt)
+	}
+
+	override suspend fun clearNoteReminder(noteId: Long) {
+		noteDao.clearNoteReminder(noteId)
+	}
+
+	override suspend fun setNoteReminderDone(noteId: Long) {
+		noteDao.setNoteReminderDone(noteId)
+	}
+
 	override suspend fun deleteNote(note: Note) {
 		noteDao.deleteNote(note.toEntity())
 	}
@@ -145,6 +163,8 @@ class NoteRepositoryImpl @Inject constructor(
 		background = background,
 		createdAt = createdAt,
 		updatedAt  = updatedAt,
+		remindAt = remindAt,
+		isReminded = isReminded,
 		trashedAt = trashedAt,
 		isPinned = isPinned,
 		isLocked = isLocked,

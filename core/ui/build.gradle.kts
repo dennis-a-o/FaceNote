@@ -47,6 +47,7 @@ dependencies {
 	debugImplementation(libs.ui.tooling)
 	debugImplementation(libs.ui.test.manifest)
 	implementation(libs.google.gson)
+	implementation(libs.threetenabp)
 
 	//testImplementation(libs.junit)
 	//androidTestImplementation(libs.androidx.junit)

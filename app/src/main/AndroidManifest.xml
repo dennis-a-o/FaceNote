@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:name=".FaceNoteApplication"
         android:allowBackup="true"
@@ -23,10 +20,26 @@
             android:theme="@style/Theme.FaceNote.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".core.notifications.NotificationActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="action_done"/>
+                <action android:name="action_cancel"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
         <provider
             android:authorities="${applicationId}.provider"
             android:name="androidx.core.content.FileProvider"
@@ -35,7 +48,6 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
-
         </provider>
     </application>
 

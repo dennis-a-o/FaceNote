@@ -57,6 +57,9 @@ android {
 dependencies {
 	implementation(project(":core:ui"))
 	implementation(project(":core:navigation"))
+	implementation(project(":core:data"))
+	implementation(project(":core:model"))
+	implementation(project(":core:notifications"))
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.lifecycle.runtime.ktx)
 	implementation(libs.androidx.activity.compose)
@@ -70,11 +73,13 @@ dependencies {
 
 	implementation(libs.coil.compose)
 	implementation (libs.androidx.work.runtime)
+	implementation(libs.threetenabp)
 
 
 	implementation(libs.google.gson)
 
 	implementation(libs.hilt.android)
+	implementation(libs.androidx.hilt.work)
 
 	ksp(libs.hilt.compiler)
 	implementation(libs.androidx.hilt.navigation.compose)

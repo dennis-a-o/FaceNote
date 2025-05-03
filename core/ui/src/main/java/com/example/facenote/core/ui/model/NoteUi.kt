@@ -1,7 +1,7 @@
 package com.example.facenote.core.ui.model
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.graphics.toArgb
 import com.example.facenote.core.model.Note
 import com.example.facenote.core.model.NoteState
 import com.example.facenote.core.ui.util.NoteContentUtil
@@ -34,6 +34,23 @@ fun Note.toNoteUi() = NoteUi(
 		NoteContentUtil.jsonToAnnotatedString(content).text
 	},
 	color = Color(color),
+	background = background,
+	createdAt = createdAt,
+	updatedAt = updatedAt,
+	remindAt = remindAt,
+	isReminded = isReminded,
+	trashedAt = trashedAt,
+	isPinned = isPinned,
+	isLocked = isLocked,
+	isChecklist = isChecklist,
+	state = state
+)
+
+fun NoteUi.toNote() = Note(
+	id = id,
+	content = content,
+	title = title,
+	color = color.toArgb(),
 	background = background,
 	createdAt = createdAt,
 	updatedAt = updatedAt,

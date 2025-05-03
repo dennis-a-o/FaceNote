@@ -26,8 +26,10 @@ import com.example.facenote.core.ui.model.CheckListItem
 import com.example.facenote.core.ui.util.NoteContentUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.File
@@ -49,11 +51,13 @@ class NoteEditorVIewModel @Inject constructor(
 	private var isCheckList: Boolean = savedStateHandle["isCheckList"] ?: false
 	private val _noteState = MutableStateFlow(NoteEditorState(isChecklist = isCheckList))
 
-	val noteState = _noteState.asStateFlow()
-
-	init {
+	val noteState = _noteState.onStart {
 		if (noteId > 0) loadNote(noteId)
-	}
+	}.stateIn(
+		viewModelScope,
+		SharingStarted.WhileSubscribed(5000L),
+		NoteEditorState(isChecklist = isCheckList)
+	)
 
 	fun onTitleChange(title: String){
 		_noteState.update {  it.copy(title = title) }
@@ -179,9 +183,7 @@ class NoteEditorVIewModel @Inject constructor(
 		viewModelScope.launch {
 			if (noteId > 0) {
 				setNoteStateUseCase.invoke(noteId, NoteState.TRASH)
-				_noteState.update {
-					it.copy(state = NoteState.TRASH)
-				}
+				_noteState.update { it.copy(state = NoteState.TRASH) }
 			}
 		}
 	}
@@ -198,9 +200,7 @@ class NoteEditorVIewModel @Inject constructor(
 		viewModelScope.launch {
 			if (noteId > 0){
 				setNoteStateUseCase.invoke(noteId, NoteState.NORMAL)
-				_noteState.update {
-					it.copy(state = NoteState.NORMAL)
-				}
+				_noteState.update { it.copy(state = NoteState.NORMAL) }
 			}
 		}
 	}
@@ -246,10 +246,15 @@ class NoteEditorVIewModel @Inject constructor(
 		viewModelScope.launch {
 			if (noteId > 0) {
 				pinNoteUseCase(noteId, !(_noteState.value.isPinned))
-				_noteState.update {
-					it.copy(isPinned = !(it.isPinned))
-				}
+				_noteState.update { it.copy(isPinned = !(it.isPinned)) }
 			}
+		}
+	}
+
+	fun onReminderDone(){
+		viewModelScope.launch {
+			noteRepository.setNoteReminderDone(noteId)
+			_noteState.update { it.copy(isReminded = true) }
 		}
 	}
 
@@ -261,6 +266,7 @@ class NoteEditorVIewModel @Inject constructor(
 				note?.let { loadedNote ->
 					_noteState.update {
 						it.copy(
+							id = loadedNote.id,
 							title = loadedNote.title,
 							textFieldValue =if (!loadedNote.isChecklist)
 								TextFieldValue(NoteContentUtil.jsonToAnnotatedString(loadedNote.content))
@@ -312,6 +318,7 @@ class NoteEditorVIewModel @Inject constructor(
 }
 
 data class NoteEditorState (
+	val id: Long = 0,
 	val title: String = "",
 	val textFieldValue: TextFieldValue = TextFieldValue(),
 	val checkListContent: List<CheckListItem> = emptyList(),

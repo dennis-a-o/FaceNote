@@ -4,6 +4,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -30,6 +31,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedFilterChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -65,6 +67,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
@@ -73,16 +76,22 @@ import com.example.facenote.core.model.NoteState
 import com.example.facenote.core.ui.R
 import com.example.facenote.core.ui.model.CheckListItem
 import com.example.facenote.core.ui.util.AssetsUtil
+import com.example.facenote.core.ui.util.DateTimeUtil
 import com.example.facenote.feature.note_editor.sheet.AddBottomSheet
 import com.example.facenote.feature.note_editor.sheet.BackgroundBottomSheet
 import com.example.facenote.feature.note_editor.sheet.FormatBottomSheet
 import com.example.facenote.feature.note_editor.sheet.TrashBottomSheet
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 import java.io.File
 
 @Composable
 fun NoteEditorScreen(
 	onNavigateBack: () -> Unit,
 	onNavigateToNoteGallery: (Long, Int, String) -> Unit,
+	onNavigateToReminder: (Long,Long) -> Unit,
 	viewModel: NoteEditorVIewModel
 ) {
 	val noteState by viewModel.noteState.collectAsState()
@@ -125,7 +134,7 @@ fun NoteEditorScreen(
 			topBar = {
 				NoteEditorTopBar(
 					noteState = noteState,
-					onClickReminder = { /*  TODO */ },
+					onClickReminder = { onNavigateToReminder(noteState.id,noteState.remindAt ?: 0L) },
 					onClickBack = { viewModel.saveNote(); onNavigateBack() },
 					onClickTrash = { viewModel.onTrash() },
 					onClickShare = {  viewModel.onShare(content) },
@@ -173,7 +182,9 @@ fun NoteEditorScreen(
 							noteImage.noteId,
 							index,
 							noteState.state.getName())
-					}
+					},
+					onClickReminderDone = { viewModel.onReminderDone() },
+					onClickReminder = { onNavigateToReminder(noteState.id,noteState.remindAt ?: 0L) }
 				)
 			}
 			if (showFormatBottomSheet) {
@@ -221,7 +232,9 @@ fun NoteEditorScreen(
 private fun NoteEditor(
 	noteState: NoteEditorState,
 	viewModel: NoteEditorVIewModel,
-	onClickImage: (NoteImage,Int) -> Unit
+	onClickImage: (NoteImage,Int) -> Unit,
+	onClickReminderDone: () -> Unit,
+	onClickReminder: () -> Unit
 ){
 	val context = LocalContext.current
 
@@ -232,6 +245,35 @@ private fun NoteEditor(
 		verticalArrangement = Arrangement.spacedBy(8.dp),
 		userScrollEnabled = true
 	) {
+		
+		noteState.remindAt?.let { remindAt ->
+			if (remindAt < System.currentTimeMillis() && !noteState.isReminded){
+				item(span = { GridItemSpan(6) }){
+					Row (
+						modifier = Modifier
+							.fillMaxWidth()
+							.background(Color.Black)
+							.padding(horizontal = 16.dp),
+						verticalAlignment = Alignment.CenterVertically,
+						horizontalArrangement = Arrangement.SpaceBetween
+					){
+						Text(
+							text = "Sent ${DateTimeUtil.millisToTextFormat(remindAt)}",
+							style = MaterialTheme.typography.bodyMedium.copy(
+								color = MaterialTheme.colorScheme.surfaceContainerLowest
+							)
+						)
+						IconButton(onClick = { onClickReminderDone() }) {
+							Icon(
+								painter = painterResource(R.drawable.ic_check),
+								contentDescription = null,
+								tint = MaterialTheme.colorScheme.surfaceContainerLowest
+							)
+						}
+					}
+				}
+			}
+		}
 		// preview bitmaps for new unsaved note
 		noteState.imageBitmaps.forEach { bitmap ->
 			item (span = { GridItemSpan(2) }){
@@ -273,7 +315,7 @@ private fun NoteEditor(
 					modifier = Modifier
 						.fillMaxWidth()
 						.clickable {
-							onClickImage(noteImage,index)
+							onClickImage(noteImage, index)
 						},
 					contentScale = ContentScale.FillWidth
 				)
@@ -347,6 +389,32 @@ private fun NoteEditor(
 						viewModel.onTextContentChange(it)
 					}
 				)
+			}
+		}
+		noteState.remindAt?.let { remindAt ->
+			item (span = { GridItemSpan(6) }){
+				Column (
+					modifier = Modifier.padding(horizontal = 16.dp)
+				){
+					ElevatedFilterChip(
+						selected = true,
+						onClick = { onClickReminder() },
+						label = {
+							Text(
+								text = DateTimeUtil.millisToTextFormat(remindAt),
+								style = MaterialTheme.typography.bodyMedium.copy(
+									textDecoration =if(noteState.isReminded) TextDecoration.LineThrough else TextDecoration.None
+								)
+							)
+						},
+						leadingIcon = {
+							Icon(
+								painter = painterResource(R.drawable.ic_alarm),
+								contentDescription = null,
+							)
+						}
+					)
+				}
 			}
 		}
 	}

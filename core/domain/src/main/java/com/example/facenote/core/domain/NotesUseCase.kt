@@ -2,6 +2,7 @@ package com.example.facenote.core.domain
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import androidx.paging.PagingSource
 import com.example.facenote.core.data.repository.NoteRepository
 import com.example.facenote.core.model.Note
@@ -165,6 +166,23 @@ class SaveNoteImageUseCase @Inject constructor(
 		}catch (e: Exception){
 			Result.failure(e)
 		}
+	}
+}
+
+class EmptyTrashUseCase @Inject constructor(
+	private val noteRepository: NoteRepository,
+	private val imageStorage: ImageStorage
+){
+	suspend operator fun invoke(){
+		val trashNoteIdList = noteRepository.getTrashNoteIdList().first()
+		trashNoteIdList.forEach { noteId ->
+			val noteImages = noteRepository.getNoteImages(noteId).first()
+
+			noteImages.forEach { imageStorage.deleteImage(it.filePath) }
+
+			noteRepository.deleteNoteImages(noteId)
+		}
+		noteRepository.deleteAllTrash()
 	}
 }
 

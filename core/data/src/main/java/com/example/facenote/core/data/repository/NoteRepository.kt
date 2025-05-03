@@ -19,6 +19,11 @@ interface NoteRepository {
 	fun getNoteImages(noteId: Long): Flow<List<NoteImage>>
 	fun getNoteImage(id: Long): Flow<NoteImage>
 	fun searchNotes(query: String, state: NoteState): PagingSource<Int, Note>
+	suspend fun deleteAllTrash()
+	fun getTrashNoteIdList(): Flow<List<Long>>
+	suspend fun setNoteReminder(noteId: Long, remindAt: Long)
+	suspend fun clearNoteReminder(noteId: Long)
+	suspend fun setNoteReminderDone(noteId: Long)
 	suspend fun deleteNote(note: Note)
 	suspend fun deleteNotes(notes: List<Note>)
 	suspend fun deleteNoteImage(noteImage: NoteImage)

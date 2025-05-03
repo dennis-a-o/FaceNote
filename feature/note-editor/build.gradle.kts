@@ -45,6 +45,7 @@ dependencies {
 	implementation(project(":core:model"))
 	implementation(project(":core:domain"))
 	implementation(project(":core:data"))
+	implementation(project(":core:notifications"))
 	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.material3)
 	implementation(libs.androidx.ui.tooling.preview)
@@ -54,6 +55,7 @@ dependencies {
 	ksp(libs.hilt.compiler)
 	implementation(libs.androidx.hilt.navigation.compose)
 	implementation(libs.coil.compose)
+	implementation(libs.threetenabp)
 
 	//implementation(libs.androidx.core.ktx)
 	//implementation(libs.androidx.appcompat)
