@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.facenote.core.model.ThemeConfig
@@ -42,12 +43,12 @@ fun SettingsScreen(
 	Scaffold(
 		topBar = {
 			TopAppBar(
-				title = { Text(text = "Settings") },
+				title = { Text(stringResource(R.string.settings)) },
 				navigationIcon = {
 					IconButton(onClick = onNavigateBack) {
 						Icon(
 							painter = painterResource(R.drawable.ic_arrow_back),
-							contentDescription = ""
+							contentDescription = null
 						)
 					}
 				}
@@ -61,7 +62,7 @@ fun SettingsScreen(
 		){
 			Column{
 				Text(
-					text = "Theme",
+					text = stringResource(R.string.theme),
 					modifier = Modifier.padding(horizontal = 16.dp),
 					style = MaterialTheme.typography.titleMedium
 				)

@@ -1,8 +1,9 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id ("com.google.dagger.hilt.android")
-	id("com.google.devtools.ksp")
+	alias(libs.plugins.compose.compiler)
+	alias(libs.plugins.ksp)
+	alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -35,9 +36,6 @@ android {
 	buildFeatures {
 		compose = true
 	}
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.5.14"
-	}
 }
 
 dependencies {
@@ -46,6 +44,7 @@ dependencies {
 	implementation(project(":core:domain"))
 	implementation(project(":core:data"))
 	implementation(project(":core:notifications"))
+
 	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.material3)
 	implementation(libs.androidx.ui.tooling.preview)
@@ -57,9 +56,6 @@ dependencies {
 	implementation(libs.coil.compose)
 	implementation(libs.threetenabp)
 
-	//implementation(libs.androidx.core.ktx)
-	//implementation(libs.androidx.appcompat)
-	//implementation(libs.material)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

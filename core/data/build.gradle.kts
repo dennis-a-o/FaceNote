@@ -1,8 +1,8 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id("com.google.devtools.ksp")
-	id ("com.google.dagger.hilt.android")
+	alias(libs.plugins.ksp)
+	alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -41,6 +41,7 @@ dependencies {
 	implementation(project(":core:database"))
 	implementation(project(":core:datastore"))
 	implementation(project(":core:storage"))
+	implementation(project(":core:drive"))
 	implementation (libs.hilt.android)
 	ksp (libs.hilt.compiler)
 	implementation(libs.androidx.room.runtime)

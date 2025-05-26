@@ -6,4 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface SettingRepository {
 	suspend fun setTheme(theme: ThemeConfig)
 	fun getTheme(): Flow<ThemeConfig>
+	suspend fun setDriveFolderId(folderId: String)
+	fun getDriveFolderId(): Flow<String?>
+
 }

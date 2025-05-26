@@ -1,8 +1,8 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id("com.google.devtools.ksp")
-	id ("com.google.dagger.hilt.android")
+	alias(libs.plugins.dagger.hilt.android)
+	alias(libs.plugins.ksp)
 }
 
 android {
@@ -36,6 +36,7 @@ android {
 
 dependencies {
 	implementation(project(":core:model"))
+
 	implementation(libs.androidx.datastore.preferences.core)
 	implementation (libs.hilt.android)
 	ksp (libs.hilt.compiler)
@@ -45,5 +46,4 @@ dependencies {
 
 	testImplementation(libs.junit)
 	testImplementation(libs.kotlinx.coroutines.test)
-	///androidTestImplementation(libs.androidx.junit)
 }

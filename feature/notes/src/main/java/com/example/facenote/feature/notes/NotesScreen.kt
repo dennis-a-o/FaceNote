@@ -45,6 +45,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -187,7 +189,7 @@ private fun DrawerContent(
 				.padding(horizontal = 28.dp, vertical = 24.dp)
 		)
 		NavigationDrawerItem(
-			label = { Text(text = "Notes") },
+			label = { Text(stringResource(R.string.notes)) },
 			icon = {
 				Icon(
 					painter = painterResource(R.drawable.ic_notes),
@@ -199,7 +201,7 @@ private fun DrawerContent(
 			modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
 		)
 		NavigationDrawerItem(
-			label = { Text(text = "Archive") },
+			label = { Text(stringResource(R.string.archive)) },
 			icon = {
 				Icon(
 					painter = painterResource(R.drawable.ic_archive_outline),
@@ -211,7 +213,7 @@ private fun DrawerContent(
 			modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
 		)
 		NavigationDrawerItem(
-			label = { Text(text = "Trash") },
+			label = { Text(stringResource(R.string.trash)) },
 			icon = {
 				Icon(
 					painter = painterResource(R.drawable.ic_delete_outline),
@@ -223,7 +225,7 @@ private fun DrawerContent(
 			modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
 		)
 		NavigationDrawerItem(
-			label = { Text(text = "Setting") },
+			label = { Text(stringResource(R.string.setting)) },
 			icon = {
 				Icon(
 					painter = painterResource(R.drawable.ic_setting_outlined),
@@ -235,7 +237,7 @@ private fun DrawerContent(
 			modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
 		)
 		NavigationDrawerItem(
-			label = { Text(text = "Backup") },
+			label = { Text(stringResource(R.string.backup)) },
 			icon = {
 				Icon(
 					painter = painterResource(R.drawable.ic_backup_outlined),
@@ -287,7 +289,7 @@ private fun NotesTopBar(
 			IconButton(onClick = onClickShowDrawer) {
 				Icon(
 					painter = painterResource(R.drawable.ic_menu),
-					contentDescription = "drawer"
+					contentDescription = null
 				)
 			}
 		},
@@ -295,21 +297,21 @@ private fun NotesTopBar(
 			IconButton(onClick = onClickSearch) {
 				Icon(
 					painter = painterResource(R.drawable.ic_search),
-					contentDescription = "search"
+					contentDescription = null
 				)
 			}
 			if (isGrid) {
 				IconButton(onClick = onToggleGridList) {
 					Icon(
 						painter = painterResource(R.drawable.ic_view_list_outlined),
-						contentDescription = "drawer"
+						contentDescription = null
 					)
 				}
 			}else {
 				IconButton(onClick = onToggleGridList) {
 					Icon(
 						painter = painterResource(R.drawable.ic_grid_view_outlined),
-						contentDescription = "drawer"
+						contentDescription = null
 					)
 				}
 			}
@@ -345,7 +347,7 @@ private fun NotesFloatingActionButton(
 					contentColor = MaterialTheme.colorScheme.onBackground
 				)
 			) {
-				Text(text = "List")
+				Text(stringResource(R.string.list))
 				Spacer(Modifier.width(8.dp))
 				Icon(painter = painterResource(R.drawable.ic_check_box), contentDescription = "")
 			}
@@ -356,10 +358,16 @@ private fun NotesFloatingActionButton(
 					contentColor = MaterialTheme.colorScheme.onBackground
 				)
 			) {
-				Text(text = "Text")
+				Text(stringResource(R.string.text))
 				Spacer(Modifier.width(8.dp))
 				Icon(painter = painterResource(R.drawable.ic_text_fields), contentDescription = "")
 			}
 		}
 	}
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun PreviewDrawerContent(){
+	DrawerContent({},{},{},{},{})
 }

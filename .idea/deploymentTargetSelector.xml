@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-03-27T10:56:30.756431300Z">
+        <DropdownSelection timestamp="2025-05-13T10:16:18.073138100Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="Default" identifier="serial=192.168.137.199:5555;connection=08083c48" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=N30EEA0000000012985" />
             </handle>
           </Target>
         </DropdownSelection>
@@ -22,9 +22,6 @@
         </DialogSelection>
       </SelectionState>
       <SelectionState runConfigName="FaceNoteDatabaseTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="ExampleInstrumentedTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="noteDao_data_inserted_should_be_same_fetched()">

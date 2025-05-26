@@ -7,7 +7,9 @@ import com.example.facenote.core.model.ThemeConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FaceNotePreferencesDataSource @Inject constructor(
 	private val userPreferences: DataStore<Preferences>
 ) {
@@ -28,6 +30,30 @@ class FaceNotePreferencesDataSource @Inject constructor(
 				2 -> ThemeConfig.DARK
 				else -> ThemeConfig.FOLLOW_SYSTEM
 			}
+		}
+	}
+
+	suspend fun setDriveFolderId(folderId: String){
+		userPreferences.edit { prefs ->
+			prefs[PreferencesKey.DRIVE_FOLDER_ID] = folderId
+		}
+	}
+
+	fun getDriveFolderId(): Flow<String?>{
+		return userPreferences.data.map { prefs ->
+			prefs[PreferencesKey.DRIVE_FOLDER_ID]
+		}
+	}
+
+	suspend fun setLastBackup(lastBackup:Long){
+		userPreferences.edit { prefs ->
+			prefs[PreferencesKey.LAST_BACKUP] = lastBackup
+		}
+	}
+
+	fun getLastBackup(): Flow<Long?>{
+		return userPreferences.data.map { prefs ->
+			prefs[PreferencesKey.LAST_BACKUP]
 		}
 	}
 }

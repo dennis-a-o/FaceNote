@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.facenote.core.ui.R
 
@@ -48,7 +49,7 @@ fun AddBottomSheet(
 				)
 				Spacer(Modifier.width(8.dp))
 				Text(
-					text = "Take photo",
+					text = stringResource(R.string.take_photo),
 					style = MaterialTheme.typography.bodyLarge
 				)
 			}
@@ -67,7 +68,7 @@ fun AddBottomSheet(
 				)
 				Spacer(Modifier.width(8.dp))
 				Text(
-					text = "Add image",
+					text = stringResource(R.string.add_image),
 					style = MaterialTheme.typography.bodyLarge
 				)
 			}

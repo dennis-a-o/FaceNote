@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -52,33 +53,33 @@ fun ArchiveScreen(
 	var isGrid by remember{ mutableStateOf(true) }
 
 	Scaffold (
-	topBar = {
-		if(selectState.isSelecting){
-			NoteSelectTopBar(
-				selectState = selectState,
-				onCancel = { viewModel.onSelectClear() },
-				onClickPin = {
-					viewModel.pin()
-					lazyPagingArchiveNotes.refresh()
-				},
-				onClickArchive = {//we unarchive since we are in archive state
-					viewModel.unArchive()
-					lazyPagingArchiveNotes.refresh()
-				},
-				onClickDelete = {
-					viewModel.trash()
-					lazyPagingArchiveNotes.refresh()
-				}
-			)
-		}else{
-			ArchiveTobBar(
-				isGrid = isGrid,
-				onClickBack = { onNavigateBack() },
-				onToggleGrid = { isGrid = !isGrid },
-				onClickSearch = { onNavigateToNoteSearch(NoteState.ARCHIVE.getName()) }
-			)
+		topBar = {
+			if(selectState.isSelecting){
+				NoteSelectTopBar(
+					selectState = selectState,
+					onCancel = { viewModel.onSelectClear() },
+					onClickPin = {
+						viewModel.pin()
+						lazyPagingArchiveNotes.refresh()
+					},
+					onClickArchive = {//we unarchive since we are in archive state
+						viewModel.unArchive()
+						lazyPagingArchiveNotes.refresh()
+					},
+					onClickDelete = {
+						viewModel.trash()
+						lazyPagingArchiveNotes.refresh()
+					}
+				)
+			}else{
+				ArchiveTobBar(
+					isGrid = isGrid,
+					onClickBack = { onNavigateBack() },
+					onToggleGrid = { isGrid = !isGrid },
+					onClickSearch = { onNavigateToNoteSearch(NoteState.ARCHIVE.getName()) }
+				)
+			}
 		}
-	}
 	){ paddingValues ->
 		Box(modifier = Modifier
 			.padding(paddingValues)
@@ -134,13 +135,13 @@ private fun NoArchive(){
 	){
 		Icon(
 			painter = painterResource(R.drawable.ic_archive_outline),
-			contentDescription = "",
+			contentDescription = null,
 			modifier = Modifier
 				.size(100.dp),
 			tint = MaterialTheme.colorScheme.primary
 		)
 		Spacer(Modifier.height(8.dp))
-		Text(text = "No archives found")
+		Text(text = stringResource(R.string.no_archive))
 	}
 }
 
@@ -153,7 +154,7 @@ private fun ArchiveTobBar(
 	onClickSearch: () -> Unit
 ){
 	TopAppBar(
-		title = { Text(text = "Archive") },
+		title = { Text(text = stringResource(R.string.archive)) },
 		navigationIcon = {
 			IconButton(onClick = onClickBack) {
 				Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = null)

@@ -1,13 +1,13 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id ("com.google.dagger.hilt.android")
-	id("com.google.devtools.ksp")
+	alias(libs.plugins.dagger.hilt.android)
+	alias(libs.plugins.ksp)
 }
 
 android {
 	namespace = "com.example.facenote.core.notifications"
-	compileSdk = 34
+	compileSdk = 35
 
 	defaultConfig {
 		minSdk = 24
@@ -37,6 +37,7 @@ android {
 dependencies {
 	implementation(project(":core:ui"))
 	implementation(project(":core:data"))
+
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.androidx.ui.graphics)
@@ -44,6 +45,7 @@ dependencies {
 	implementation(libs.hilt.android)
 
 	ksp(libs.hilt.compiler)
+
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

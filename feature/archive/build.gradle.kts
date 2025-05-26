@@ -1,13 +1,14 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id ("com.google.dagger.hilt.android")
-	id("com.google.devtools.ksp")
+	alias(libs.plugins.compose.compiler)
+	alias(libs.plugins.ksp)
+	alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
 	namespace = "com.example.facenote.feature.archive"
-	compileSdk = 34
+	compileSdk = 35
 
 	defaultConfig {
 		minSdk = 24
@@ -35,9 +36,6 @@ android {
 	buildFeatures {
 		compose = true
 	}
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.5.14"
-	}
 }
 
 dependencies {
@@ -45,6 +43,7 @@ dependencies {
 	implementation(project(":core:model"))
 	implementation(project(":core:domain"))
 	implementation(project(":core:data"))
+
 	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.material3)
 	implementation(libs.androidx.ui.tooling.preview)

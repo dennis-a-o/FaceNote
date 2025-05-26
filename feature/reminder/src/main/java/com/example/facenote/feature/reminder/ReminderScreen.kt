@@ -48,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -150,7 +151,7 @@ private fun ReminderForm(
 					contentDescription = ""
 				)
 				Spacer(Modifier.width(8.dp))
-				Text(text = "Date")
+				Text(stringResource(R.string.date))
 			}
 			Row (verticalAlignment = Alignment.CenterVertically){
 				Column {
@@ -195,7 +196,7 @@ private fun ReminderForm(
 					contentDescription = ""
 				)
 				Spacer(Modifier.width(8.dp))
-				Text(text = "Reminder Time")
+				Text(stringResource(R.string.reminder_time))
 			}
 			Row (verticalAlignment = Alignment.CenterVertically){
 				Column {
@@ -241,9 +242,7 @@ private fun ReminderForm(
 					contentDescription = ""
 				)
 				Spacer(Modifier.width(8.dp))
-				Text(
-					text = "Repeat"
-				)
+				Text(stringResource(R.string.repeat))
 			}
 			Row {
 				ExposedDropdownMenuBox(
@@ -317,26 +316,26 @@ private fun ReminderTopBar(
 			onDismissRequest = { showClearDialog = false},
 			confirmButton = {
 				TextButton(onClick = { onClickDelete(); showClearDialog = false}) {
-					Text(text = "Delete")
+					Text(stringResource(R.string.delete))
 				}
 			},
 			dismissButton = {
 				TextButton(onClick = { showClearDialog = false }) {
-					Text(text = "Cancel")
+					Text(stringResource(R.string.cancel))
 				}
 			},
 			text = {
-				Text(text = "Clear this reminder?")
+				Text(stringResource(R.string.clear_this_reminder))
 			}
 		)
 	}
 	TopAppBar(
-		title = { Text(text = "Reminder") },
+		title = { Text(stringResource(R.string.reminder)) },
 		navigationIcon = {
 			IconButton(onClick = onClickBack) {
 				Icon(
 					painter = painterResource(R.drawable.ic_arrow_back),
-					contentDescription = ""
+					contentDescription = null
 				)
 			}
 		},
@@ -345,7 +344,7 @@ private fun ReminderTopBar(
 				IconButton(onClick = { showClearDialog = true }) {
 					Icon(
 						painter = painterResource(R.drawable.ic_delete_outline),
-						contentDescription = "delete"
+						contentDescription = stringResource(R.string.delete)
 					)
 				}
 			}
@@ -367,7 +366,7 @@ private fun ReminderBottomBar(
 			modifier = Modifier.weight(1f),
 			shape = RoundedCornerShape(16.dp)
 		) {
-			Text(text = "Cancel")
+			Text(stringResource(R.string.cancel))
 		}
 		Spacer(Modifier.width(8.dp))
 		Button(
@@ -375,7 +374,7 @@ private fun ReminderBottomBar(
 			modifier = Modifier.weight(1f),
 			shape = RoundedCornerShape(16.dp)
 		) {
-			Text(text = "Save")
+			Text(stringResource(R.string.save))
 		}
 		Spacer(Modifier.width(8.dp))
 	}
@@ -405,11 +404,11 @@ private fun ReminderDatePicker(
 				},
 				enabled = confirmEnabled.value
 			) {
-				Text(text = "Ok")
+				Text(stringResource(R.string.ok))
 			}
 		},
 		dismissButton = {
-			TextButton(onClick = { onDismiss() }) { Text("Cancel") }
+			TextButton(onClick = { onDismiss() }) { Text(stringResource(R.string.cancel)) }
 		}
 	){
 		DatePicker(state = datePickerState)
@@ -438,15 +437,15 @@ private fun ReminderTimePicker(
 					onDismiss()
 				},
 			) {
-				Text(text = "Ok")
+				Text(stringResource(R.string.ok))
 			}
 		},
 		dismissButton = {
-			TextButton(onClick = onDismiss) { Text("Cancel") }
+			TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
 		},
 		title = {
 			Text(
-				text = "Select time",
+				text = stringResource(R.string.select_time),
 				style = MaterialTheme.typography.bodySmall
 			)
 		},

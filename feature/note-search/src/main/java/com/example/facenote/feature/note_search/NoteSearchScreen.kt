@@ -32,9 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.facenote.core.ui.R
 import com.example.facenote.core.ui.component.NoteError
 import com.example.facenote.core.ui.component.NoteItem
 import com.example.facenote.core.ui.component.NoteProgressIndicator
@@ -155,7 +157,7 @@ private fun NoteSearchBar(
 				onExpandedChange = onExpandedChange,
 				placeholder = {
 					Text(
-						text = "Search",
+						text = stringResource(R.string.search),
 						style = MaterialTheme.typography.bodyLarge.copy(
 							color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
 						)
@@ -164,8 +166,8 @@ private fun NoteSearchBar(
 				leadingIcon = {
 					IconButton(onClick = onClickBack ) {
 						Icon(
-							painter = painterResource(com.example.facenote.core.ui.R.drawable.ic_arrow_back),
-							contentDescription = ""
+							painter = painterResource(R.drawable.ic_arrow_back),
+							contentDescription = null
 						)
 					}
 				},
@@ -174,8 +176,8 @@ private fun NoteSearchBar(
 						if (query.isNotEmpty()) {
 							IconButton(onClick = { onQueryChange("") }) {
 								Icon(
-									painter = painterResource(com.example.facenote.core.ui.R.drawable.ic_close),
-									contentDescription = "clear search"
+									painter = painterResource(R.drawable.ic_close),
+									contentDescription = stringResource(R.string.clear_search)
 								)
 							}
 						}
@@ -183,8 +185,8 @@ private fun NoteSearchBar(
 							onSearch(query)
 						}) {
 							Icon(
-								painterResource(com.example.facenote.core.ui.R.drawable.ic_search),
-								contentDescription = "search"
+								painterResource(R.drawable.ic_search),
+								contentDescription = stringResource(R.string.search)
 							)
 						}
 					}
@@ -199,8 +201,7 @@ private fun NoteSearchBar(
 			dividerColor = MaterialTheme.colorScheme.surfaceContainer
 		),
 
-	) {
-	}
+	) {}
 }
 
 @Composable
@@ -211,13 +212,13 @@ private fun NoSearchResult(){
 		horizontalAlignment = Alignment.CenterHorizontally
 	){
 		Icon(
-			painter = painterResource(com.example.facenote.core.ui.R.drawable.ic_search),
+			painter = painterResource(R.drawable.ic_search),
 			contentDescription = "",
 			modifier = Modifier
 				.size(100.dp),
 			tint = MaterialTheme.colorScheme.primary
 		)
 		Spacer(Modifier.height(8.dp))
-		Text(text = "No match found")
+		Text(stringResource(R.string.no_match_found))
 	}
 }

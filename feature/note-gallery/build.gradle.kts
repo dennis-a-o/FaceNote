@@ -1,8 +1,9 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id ("com.google.dagger.hilt.android")
-	id("com.google.devtools.ksp")
+	alias(libs.plugins.compose.compiler)
+	alias(libs.plugins.ksp)
+	alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -37,16 +38,13 @@ android {
 		compose = true
 	}
 
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.5.14"
-
-	}
 
 	dependencies {
 		implementation(project(":core:ui"))
 		implementation(project(":core:model"))
 		implementation(project(":core:domain"))
 		implementation(project(":core:data"))
+
 		implementation(platform(libs.androidx.compose.bom))
 		implementation(libs.androidx.material3)
 		implementation(libs.androidx.ui.tooling.preview)

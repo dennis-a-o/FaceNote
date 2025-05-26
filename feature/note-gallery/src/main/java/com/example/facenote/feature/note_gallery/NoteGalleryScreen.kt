@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.facenote.core.model.NoteImage
@@ -70,7 +71,7 @@ fun NoteGalleryScreen(
 					IconButton(onClick = onNavigateBack) {
 						Icon(
 							painter = painterResource(R.drawable.ic_arrow_back),
-							contentDescription = "Back"
+							contentDescription = stringResource(R.string.back)
 						)
 					}
 				},
@@ -79,13 +80,13 @@ fun NoteGalleryScreen(
 						IconButton(onClick = { viewModel.onSend(noteImages[pagerState.currentPage], context) }) {
 							Icon(
 								painter = painterResource(R.drawable.ic_send_outlined),
-								contentDescription = "send"
+								contentDescription = stringResource(R.string.send)
 							)
 						}
 						IconButton(onClick = { showDeleteConfirmDialog = true }) {
 							Icon(
 								painter = painterResource(R.drawable.ic_delete_outline),
-								contentDescription = "delete"
+								contentDescription = stringResource(R.string.delete)
 							)
 						}
 					}
@@ -112,15 +113,15 @@ fun NoteGalleryScreen(
 							}
 						}
 					) {
-						Text(text = "Delete")
+						Text(stringResource(R.string.delete))
 					}
 				},
 				dismissButton = {
 					TextButton(onClick = { showDeleteConfirmDialog = false }) {
-						Text(text = "Cancel")
+						Text(stringResource(R.string.cancel))
 					}
 				},
-				text = { Text(text = "Delete image?") }
+				text = { Text(stringResource(R.string.delete_image)) }
 			)
 		}
 	}

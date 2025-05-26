@@ -136,8 +136,7 @@ class ReminderViewModel @Inject constructor(
 				val reminderRequest = PeriodicWorkRequestBuilder<ReminderWorker>(
 					repeatInterval.toMillis(),
 					TimeUnit.MILLISECONDS
-				)
-					.setInitialDelay(delay, TimeUnit.MILLISECONDS)
+				).setInitialDelay(delay, TimeUnit.MILLISECONDS)
 					.setInputData(
 						workDataOf(
 							"NOTE_ID" to noteId,
@@ -145,8 +144,7 @@ class ReminderViewModel @Inject constructor(
 							"NOTE_CONTENT" to noteContent,
 							"REPEAT_INTERVAL" to repeatInterval.name
 						)
-					)
-					.build()
+					).build()
 
 				workManager.enqueueUniquePeriodicWork(
 					"note_reminder_$noteId",

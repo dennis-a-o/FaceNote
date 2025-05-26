@@ -1,5 +1,7 @@
 package com.example.facenote.core.data.di
 
+import com.example.facenote.core.data.repository.BackupRepository
+import com.example.facenote.core.data.repository.BackupRepositoryImpl
 import com.example.facenote.core.data.repository.NoteRepository
 import com.example.facenote.core.data.repository.NoteRepositoryImpl
 import com.example.facenote.core.data.repository.SettingRepository
@@ -21,4 +23,9 @@ abstract class DataModule {
 	abstract  fun  bindNoteRepository(
 		noteRepositoryImpl: NoteRepositoryImpl
 	): NoteRepository
+
+	@Binds
+	abstract fun bindBackupRepository(
+		backupRepositoryImpl: BackupRepositoryImpl
+	): BackupRepository
 }

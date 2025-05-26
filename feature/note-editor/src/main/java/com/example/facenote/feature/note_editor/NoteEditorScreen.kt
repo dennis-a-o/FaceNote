@@ -63,6 +63,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -107,13 +108,12 @@ fun NoteEditorScreen(
 	) { bitmap->
 		bitmap?.let { viewModel.saveBitmapImage(it) }
 	}
+
 	val galleryLauncher = rememberLauncherForActivityResult(
 		contract = ActivityResultContracts.GetContent()
 	) { uri ->
 		uri?.let { viewModel.saveUriImage(uri) }
 	}
-
-
 
 	Box{
 		if (noteState.background.isNotEmpty()) {
@@ -121,12 +121,13 @@ fun NoteEditorScreen(
 				?.let { bitmap ->
 					Image(
 						bitmap = bitmap,
-						contentDescription = "",
+						contentDescription = null,
 						modifier = Modifier.fillMaxSize(),
 						contentScale = ContentScale.FillBounds
 					)
 				}
 		}
+
 		Scaffold(
 			modifier = Modifier
 				.imePadding()
@@ -331,7 +332,7 @@ private fun NoteEditor(
 				textStyle = MaterialTheme.typography.titleLarge,
 				placeholder = {
 					Text(
-						text = "Title",
+						text = stringResource(R.string.title),
 						style = MaterialTheme.typography.titleLarge.copy(
 							color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
 						),
@@ -438,7 +439,7 @@ fun RichTextEditor(
 		modifier = Modifier.fillMaxSize(),
 		placeholder = {
 			Text(
-				text = "Notes",
+				text = stringResource(R.string.notes),
 				style = MaterialTheme.typography.bodyMedium.copy(
 					color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
 				),
@@ -574,7 +575,7 @@ private fun CheckListTextEditor(
 				contentDescription = ""
 			)
 			Spacer(Modifier.width(8.dp))
-			Text(text = "Add item")
+			Text(text = stringResource(R.string.add_item))
 		}
 	}
 }
@@ -702,10 +703,10 @@ private fun  NoteEditorTopBar(
 							Row(verticalAlignment = Alignment.CenterVertically) {
 								Icon(
 									painter = painterResource(R.drawable.ic_delete_outline),
-									contentDescription = "Delete"
+									contentDescription = stringResource(R.string.delete)
 								)
 								Spacer(Modifier.width(16.dp))
-								Text(text = "Delete")
+								Text(stringResource(R.string.delete))
 							}
 						},
 						onClick = { onClickTrash(); expanded = false }
@@ -716,17 +717,17 @@ private fun  NoteEditorTopBar(
 								if (noteState.state == NoteState.ARCHIVE) {
 									Icon(
 										painter = painterResource(R.drawable.ic_unarchive_outlined),
-										contentDescription = "Unarchive"
+										contentDescription = stringResource(R.string.unarchive)
 									)
 									Spacer(Modifier.width(16.dp))
-									Text(text = "Unarchive")
+									Text(stringResource(R.string.unarchive))
 								} else {
 									Icon(
 										painter = painterResource(R.drawable.ic_archive_outline),
-										contentDescription = "Archive"
+										contentDescription = stringResource(R.string.archive)
 									)
 									Spacer(Modifier.width(16.dp))
-									Text(text = "Archive")
+									Text(stringResource(R.string.archive))
 								}
 							}
 						},
@@ -737,10 +738,10 @@ private fun  NoteEditorTopBar(
 							Row(verticalAlignment = Alignment.CenterVertically) {
 								Icon(
 									painter = painterResource(R.drawable.ic_share_outline),
-									contentDescription = "Share"
+									contentDescription = stringResource(R.string.share)
 								)
 								Spacer(Modifier.width(16.dp))
-								Text(text = "Share")
+								Text(stringResource(R.string.share))
 							}
 						},
 						onClick = { onClickShare(); expanded = false }
@@ -778,7 +779,7 @@ private fun NoteEditorFooter(
 				) {
 					Icon(
 						painter = painterResource(id = R.drawable.ic_add_box_outlined) ,
-						contentDescription = "Add",
+						contentDescription = stringResource(R.string.add),
 						modifier = Modifier.size(20.dp)
 					)
 				}
@@ -788,7 +789,7 @@ private fun NoteEditorFooter(
 				) {
 					Icon(
 						painter = painterResource(id = R.drawable.ic_color_lens_outlined) ,
-						contentDescription = "Trash",
+						contentDescription = stringResource(R.string.trash),
 						modifier = Modifier.size(20.dp)
 					)
 				}
@@ -800,7 +801,7 @@ private fun NoteEditorFooter(
 					)
 				) {
 					Text(
-						text = "Aa",
+						text = stringResource(R.string.aa),
 						style = MaterialTheme.typography.titleMedium
 					)
 				}
@@ -815,7 +816,7 @@ private fun NoteEditorFooter(
 				) {
 					Icon(
 						painter = painterResource(R.drawable.ic_save_outlined),
-						contentDescription = "Save",
+						contentDescription = stringResource(R.string.save),
 						modifier = Modifier.size(20.dp)
 					)
 				}
@@ -823,7 +824,7 @@ private fun NoteEditorFooter(
 					IconButton(onClick = onClickShowTrash) {
 						Icon(
 							painter = painterResource(R.drawable.ic_more_vert),
-							contentDescription = "Delete"
+							contentDescription = stringResource(R.string.delete)
 						)
 					}
 				}

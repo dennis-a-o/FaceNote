@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.facenote.core.ui.R
 
@@ -39,15 +40,15 @@ fun TrashBottomSheet(
 			onDismissRequest = { showConfirmDialog = false; },
 			confirmButton = {
 				TextButton(onClick = { showConfirmDialog = false; onDeleteForever() }) {
-					Text(text = "Ok")
+					Text(stringResource(R.string.ok))
 				}
 			},
 			dismissButton = {
 				TextButton(onClick = { showConfirmDialog = false; onDismiss() }) {
-					Text(text = "Cancel")
+					Text(stringResource(R.string.cancel))
 				}
 			},
-			text = { Text(text = "Delete this note forever?") }
+			text = { Text(stringResource(R.string.delete_this_note)) }
 		)
 	}
 
@@ -73,7 +74,7 @@ fun TrashBottomSheet(
 				)
 				Spacer(Modifier.width(8.dp))
 				Text(
-					text = "Restore",
+					text = stringResource(R.string.restore),
 					style = MaterialTheme.typography.bodyLarge
 				)
 			}
@@ -92,7 +93,7 @@ fun TrashBottomSheet(
 				)
 				Spacer(Modifier.width(8.dp))
 				Text(
-					text = "Delete forever",
+					text = stringResource(R.string.delete_forever),
 					style = MaterialTheme.typography.bodyLarge
 				)
 			}

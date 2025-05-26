@@ -15,4 +15,12 @@ class SettingRepositoryImpl @Inject constructor(
 	override fun getTheme(): Flow<ThemeConfig> {
 		return preferencesDataStore.getTheme()
 	}
+
+	override suspend fun setDriveFolderId(folderId: String) {
+		preferencesDataStore.setDriveFolderId(folderId)
+	}
+
+	override fun getDriveFolderId(): Flow<String?> {
+		return preferencesDataStore.getDriveFolderId()
+	}
 }

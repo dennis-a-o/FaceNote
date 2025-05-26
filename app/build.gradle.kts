@@ -1,13 +1,29 @@
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id ("com.google.dagger.hilt.android")
-	id("com.google.devtools.ksp")
+	alias(libs.plugins.compose.compiler)
+	alias(libs.plugins.dagger.hilt.android)
+	alias(libs.plugins.ksp)
 }
 
 android {
 	namespace = "com.example.facenote"
 	compileSdk = 35
+
+	packaging {
+		resources {
+			excludes.addAll(listOf(
+				"META-INF/DEPENDENCIES",
+				"META-INF/LICENSE",
+				"META-INF/LICENSE.txt",
+				"META-INF/license.txt",
+				"META-INF/NOTICE",
+				"META-INF/NOTICE.txt",
+				"META-INF/notice.txt",
+				"META-INF/*.kotlin_module"
+			))
+		}
+	}
 
 	defaultConfig {
 		applicationId = "com.example.facenote"
@@ -41,9 +57,7 @@ android {
 	buildFeatures {
 		compose = true
 	}
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.5.14"
-	}
+	buildToolsVersion = "35.0.0"
 	packaging {
 		resources {
 			excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -60,6 +74,7 @@ dependencies {
 	implementation(project(":core:data"))
 	implementation(project(":core:model"))
 	implementation(project(":core:notifications"))
+
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.lifecycle.runtime.ktx)
 	implementation(libs.androidx.activity.compose)
@@ -83,7 +98,10 @@ dependencies {
 
 	ksp(libs.hilt.compiler)
 	implementation(libs.androidx.hilt.navigation.compose)
+
 	implementation(libs.androidx.navigation.compose)
+
+	implementation(libs.play.services.auth)
 
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)

@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -135,13 +136,13 @@ private fun NoTrash(){
 	){
 		Icon(
 			painter = painterResource(R.drawable.ic_delete_forever_outlined),
-			contentDescription = "",
+			contentDescription = null,
 			modifier = Modifier
 				.size(100.dp),
 			tint = MaterialTheme.colorScheme.primary
 		)
 		Spacer(Modifier.height(8.dp))
-		Text(text = "Empty trash")
+		Text(stringResource(R.string.empty_trash))
 	}
 }
 
@@ -161,16 +162,16 @@ fun TrashSelectTobBar(
 			onDismissRequest = { showDeleteDialog= false },
 			confirmButton = {
 				TextButton(onClick = { onClickDelete(); showDeleteDialog = false }) {
-					Text(text = "Delete")
+					Text(stringResource(R.string.delete))
 				}
 			},
 			dismissButton = {
 				TextButton(onClick = { onCancel(); showDeleteDialog = false }) {
-					Text(text = "Cancel")
+					Text(stringResource(R.string.cancel))
 				}
 			},
 			text = {
-				Text(text = "Delete permanent selected notes?")
+				Text(stringResource(R.string.delete_permanent_selected_note))
 			}
 		)
 	}
@@ -220,25 +221,25 @@ private fun TrashTobBar(
 			onDismissRequest = { showTrashDialog = false },
 			confirmButton = {
 				TextButton(onClick = { onClickEmptyTrash(); showTrashDialog = false }) {
-					Text(text = "Empty")
+					Text(stringResource(R.string.emmpty))
 				}
 			},
 			dismissButton = {
 				TextButton(onClick = { showTrashDialog = false }) {
-					Text(text = "Cancel")
+					Text(stringResource(R.string.cancel))
 				}
 			},
 			title = {
-				Text(text = "Empty trash?")
+				Text(stringResource(R.string.empty_trash_q))
 			},
 			text = {
-				Text(text = "All notes in trash will be permanently deleted.")
+				Text(stringResource(R.string.all_notes_in_trash_will_be))
 			}
 		)
 	}
 
 	TopAppBar(
-		title = { Text(text = "Trash") },
+		title = { Text(stringResource(R.string.trash)) },
 		navigationIcon = {
 			IconButton(onClick = onClickBack) {
 				Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = null)
@@ -249,7 +250,7 @@ private fun TrashTobBar(
 				IconButton(onClick = { expanded = true }) {
 					Icon(
 						painter = painterResource(R.drawable.ic_more_vert),
-						contentDescription = ""
+						contentDescription = null
 					)
 				}
 				DropdownMenu(
@@ -257,7 +258,7 @@ private fun TrashTobBar(
 					onDismissRequest = { expanded = false }
 				) {
 					DropdownMenuItem(
-						text = { Text(text = "Empty trash") },
+						text = { Text(stringResource(R.string.empty_trash)) },
 						onClick = { showTrashDialog = true; expanded = false }
 					)
 				}

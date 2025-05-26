@@ -2,7 +2,7 @@ package com.example.facenote.core.notifications.di
 
 import android.content.Context
 import com.example.facenote.core.notifications.Notifier
-import com.example.facenote.core.notifications.ReminderNotifier
+import com.example.facenote.core.notifications.FaceNoteNotifier
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +19,6 @@ object  NotificationsModule{
 	fun  providesNotifier(
 		@ApplicationContext context: Context
 	): Notifier{
-		return ReminderNotifier(context)
+		return FaceNoteNotifier(context)
 	}
 }

@@ -1,7 +1,5 @@
 package com.example.facenote.core.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -9,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.facenote.feature.archive.navigation.archiveScreen
 import com.example.facenote.feature.archive.navigation.navigateToArchive
+import com.example.facenote.feature.backup.navigation.backupScreen
+import com.example.facenote.feature.backup.navigation.navigateToBackup
 import com.example.facenote.feature.note_editor.navigation.navigateToNoteEditor
 import com.example.facenote.feature.note_editor.navigation.noteEditorScreen
 import com.example.facenote.feature.note_gallery.navigation.navigateToNoteGallery
@@ -41,7 +41,7 @@ fun FaceNoteNavHost(
 			onNavigateToArchive = navHostController::navigateToArchive,
 			onNavigateToTrash = navHostController::navigateToTrash,
 			onNavigateToSetting = navHostController::navigateToSettings,
-			onNavigateToBackUp = {}
+			onNavigateToBackUp = navHostController::navigateToBackup
 		)
 
 		noteEditorScreen(
@@ -81,6 +81,7 @@ fun FaceNoteNavHost(
 		)
 
 		reminderScreen {navHostController.navigateUp() }
+		backupScreen { navHostController.navigateUp() }
 	}
 
 }

@@ -1,6 +1,7 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -33,9 +34,6 @@ android {
 	buildFeatures {
 		compose = true
 	}
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.5.14"
-	}
 }
 
 dependencies {
@@ -48,8 +46,4 @@ dependencies {
 	debugImplementation(libs.ui.test.manifest)
 	implementation(libs.google.gson)
 	implementation(libs.threetenabp)
-
-	//testImplementation(libs.junit)
-	//androidTestImplementation(libs.androidx.junit)
-	//androidTestImplementation(libs.androidx.espresso.core)
 }

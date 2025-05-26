@@ -8,8 +8,8 @@ import com.example.facenote.core.notifications.Notifier
 class ReminderWorker(
 	context: Context,
 	params: WorkerParameters,
-	private val notifier: Notifier
-) : CoroutineWorker(context, params) {
+	private val notifier: Notifier,
+): CoroutineWorker(context, params) {
 
 	override suspend fun doWork(): Result {
 		val noteId = inputData.getLong("NOTE_ID", -1L)

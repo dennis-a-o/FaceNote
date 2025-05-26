@@ -1,8 +1,8 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id("com.google.devtools.ksp")
-	id ("com.google.dagger.hilt.android")
+	alias(libs.plugins.dagger.hilt.android)
+	alias(libs.plugins.ksp)
 }
 
 android {
@@ -35,8 +35,9 @@ android {
 }
 
 dependencies {
-	implementation(libs.androidx.room.runtime)
 	implementation(project(":core:model"))
+
+	implementation(libs.androidx.room.runtime)
 	ksp(libs.androidx.room.compiler)
 	implementation(libs.androidx.room.ktx)
 	implementation(libs.androidx.room.paging)
@@ -55,7 +56,4 @@ dependencies {
 
 	testImplementation(libs.junit)
 	testImplementation(libs.kotlinx.coroutines.test)
-
-	//androidTestImplementation(libs.androidx.junit)
-	//androidTestImplementation(libs.androidx.espresso.core)
 }
