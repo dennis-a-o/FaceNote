@@ -15,9 +15,7 @@ import com.example.facenote.core.worker.BackupWorker
 import com.example.facenote.core.worker.RestoreWorker
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.Scope
-import com.google.api.services.drive.DriveScopes
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 
 @HiltViewModel
@@ -33,28 +32,25 @@ class BackupViewModel @Inject constructor(
 	@ApplicationContext val context: Context,
 	private val backupRepository: BackupRepository,
 	private val workManager: WorkManager,
+	private val googleSignInClient: GoogleSignInClient,
 	savedStateHandle: SavedStateHandle
 ): ViewModel() {
+	//Added to facilitate Tests,set false during viewmodel test
+	private val shouldInitialize = savedStateHandle["shouldInitialize"] ?: true
+
 	private val inProgress = savedStateHandle["inProgress"] ?: false
-	private val showBackupFiles =  savedStateHandle["showBackupFiles"] ?: false
+	private val showBackupFiles = savedStateHandle["showBackupFiles"] ?: false
 
 	private val _backupState = MutableStateFlow(BackupState(inProgress = inProgress, showBackupFiles = showBackupFiles))
 	val backupState = _backupState.asStateFlow()
 
-	private val gso = GoogleSignInOptions
-		.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-		.requestEmail()
-		.requestProfile()
-		.requestScopes(Scope(DriveScopes.DRIVE_FILE), Scope(DriveScopes.DRIVE_APPDATA))
-		.build()
-
-	val googleSignInClient = GoogleSignIn.getClient(context, gso)
-
 	init {
-		getFiles()
-		lastBackup()
-		initializeAccount()
-		getWorkerRunning()
+		if (shouldInitialize) {
+			getFiles()
+			lastBackup()
+			initializeAccount()
+			getWorkerRunning()
+		}
 	}
 
 	private fun initializeAccount(){
@@ -157,7 +153,6 @@ class BackupViewModel @Inject constructor(
 			_backupState.update {
 				it.copy(inProgress = true)
 			}
-			workManager.cancelAllWork()
 			try {
 				val restoreWorkRequest = OneTimeWorkRequestBuilder<RestoreWorker>()
 					.setInputData(workDataOf("fileId" to fileId))
@@ -217,20 +212,21 @@ class BackupViewModel @Inject constructor(
 			_backupState.update {
 				it.copy(inProgress = true)
 			}
-			workManager.cancelAllWork()
+
 			try {
-				val backupWorkRequest = OneTimeWorkRequestBuilder<BackupWorker>()
-					.build()
+				val backupWorkRequest = OneTimeWorkRequestBuilder<BackupWorker>().build()
 
 				workManager.enqueueUniqueWork("backup-worker",ExistingWorkPolicy.REPLACE,backupWorkRequest)
 
 				workManager.getWorkInfosForUniqueWorkFlow("backup-worker")
 					.collect { workInfoList ->
+
 						workInfoList.firstOrNull()?.let { workInfo ->
 							when (workInfo?.state) {
 								WorkInfo.State.RUNNING -> {
 									val operation = workInfo.progress.getString("operation")
 									val progress = workInfo.progress.getDouble("progress", 0.0)
+
 									_backupState.update {
 										it.copy(
 											progress = if(progress >= 0.0) progress else it.progress,
@@ -266,6 +262,7 @@ class BackupViewModel @Inject constructor(
 						}
 					}
 			} catch (e: Exception) {
+				println("YIP ERROR $e")
 				_backupState.update {
 					it.copy(
 						error = e.message.toString(),
@@ -396,6 +393,8 @@ class BackupViewModel @Inject constructor(
 			}
 		}
 	}
+
+	fun getSignInIntent() = googleSignInClient.signInIntent
 }
 
 

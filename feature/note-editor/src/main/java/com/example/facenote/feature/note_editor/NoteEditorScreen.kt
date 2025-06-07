@@ -62,6 +62,7 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -82,10 +83,6 @@ import com.example.facenote.feature.note_editor.sheet.AddBottomSheet
 import com.example.facenote.feature.note_editor.sheet.BackgroundBottomSheet
 import com.example.facenote.feature.note_editor.sheet.FormatBottomSheet
 import com.example.facenote.feature.note_editor.sheet.TrashBottomSheet
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
-import org.threeten.bp.format.DateTimeFormatter
 import java.io.File
 
 @Composable
@@ -328,7 +325,7 @@ private fun NoteEditor(
 				onValueChange = {
 					viewModel.onTitleChange(it)
 				},
-				modifier = Modifier.fillMaxWidth(),
+				modifier = Modifier.fillMaxWidth().testTag("titleTextField"),
 				textStyle = MaterialTheme.typography.titleLarge,
 				placeholder = {
 					Text(
@@ -436,7 +433,7 @@ fun RichTextEditor(
 				onContentChange = onContentChange
 			)
 		},
-		modifier = Modifier.fillMaxSize(),
+		modifier = Modifier.fillMaxSize().testTag("richTextEditor"),
 		placeholder = {
 			Text(
 				text = stringResource(R.string.notes),
@@ -775,7 +772,8 @@ private fun NoteEditorFooter(
 			Row {
 				IconButton(
 					onClick = onClickAdd ,
-					enabled = noteState.state != NoteState.TRASH
+					enabled = noteState.state != NoteState.TRASH,
+					modifier = Modifier.testTag("addImageButton")
 				) {
 					Icon(
 						painter = painterResource(id = R.drawable.ic_add_box_outlined) ,
@@ -785,7 +783,8 @@ private fun NoteEditorFooter(
 				}
 				IconButton(
 					onClick = onClickBackground,
-					enabled = noteState.state != NoteState.TRASH
+					enabled = noteState.state != NoteState.TRASH,
+					modifier = Modifier.testTag("backgroundButton")
 				) {
 					Icon(
 						painter = painterResource(id = R.drawable.ic_color_lens_outlined) ,
@@ -796,6 +795,7 @@ private fun NoteEditorFooter(
 				IconButton(
 					onClick = onClickFormating,
 					enabled = noteState.state != NoteState.TRASH,
+					modifier = Modifier.testTag("formatButton"),
 					colors = IconButtonDefaults.iconButtonColors(
 						contentColor =  MaterialTheme.colorScheme.onBackground
 					)

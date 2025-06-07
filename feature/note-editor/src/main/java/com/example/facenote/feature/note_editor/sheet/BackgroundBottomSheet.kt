@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,7 @@ fun BackgroundBottomSheet(
 
 	ModalBottomSheet(
 		onDismissRequest = onDismiss,
+		modifier = Modifier.testTag("backgroundBottomSheet")
 	) {
 		Column(
 			modifier = Modifier

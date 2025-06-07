@@ -40,8 +40,8 @@ dependencies {
 
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.appcompat)
-	implementation(libs.androidx.ui.graphics)
-	implementation(libs.material)
+	implementation(libs.androidx.compose.ui.graphics)
+	implementation(libs.com.google.android.material )
 	implementation(libs.hilt.android)
 
 	ksp(libs.hilt.compiler)

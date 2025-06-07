@@ -47,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -140,7 +141,8 @@ private fun ReminderForm(
 					showDatePicker = true
 				}
 				.padding(16.dp)
-				.fillMaxWidth(),
+				.fillMaxWidth()
+				.testTag("datePicker"),
 			horizontalArrangement = Arrangement.SpaceBetween,
 			verticalAlignment = Alignment.CenterVertically
 		){
@@ -185,7 +187,8 @@ private fun ReminderForm(
 					showTimePicker = true
 				}
 				.padding(16.dp)
-				.fillMaxWidth(),
+				.fillMaxWidth()
+				.testTag("timePicker"),
 			horizontalArrangement = Arrangement.SpaceBetween,
 			verticalAlignment = Alignment.CenterVertically
 		){
@@ -255,6 +258,7 @@ private fun ReminderForm(
 						value = reminderState.repeatInterval.name,
 						onValueChange = {},
 						modifier = Modifier
+							.testTag("repeatInterval")
 							.menuAnchor(MenuAnchorType.PrimaryNotEditable),
 						textStyle = MaterialTheme.typography.bodyMedium.copy(
 							color = MaterialTheme.colorScheme.primary,
@@ -290,7 +294,7 @@ private fun ReminderForm(
 									)
 								},
 								onClick = {
-									onEvent(ReminderFormEvent.RepeatIntervalChanged(interval));
+									onEvent(ReminderFormEvent.RepeatIntervalChanged(interval))
 									intervalMenuExpanded = false
 								}
 							)
@@ -407,6 +411,7 @@ private fun ReminderDatePicker(
 				Text(stringResource(R.string.ok))
 			}
 		},
+		modifier = Modifier.testTag("reminderDatePickerDialog"),
 		dismissButton = {
 			TextButton(onClick = { onDismiss() }) { Text(stringResource(R.string.cancel)) }
 		}
@@ -440,6 +445,7 @@ private fun ReminderTimePicker(
 				Text(stringResource(R.string.ok))
 			}
 		},
+		modifier = Modifier.testTag("reminderTimePickerDialog"),
 		dismissButton = {
 			TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
 		},

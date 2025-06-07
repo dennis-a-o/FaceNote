@@ -27,7 +27,7 @@ android {
 
 	defaultConfig {
 		minSdk = 24
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+		testInstrumentationRunner ="androidx.test.runner.AndroidJUnitRunner"
 		consumerProguardFiles("consumer-rules.pro")
 	}
 
@@ -50,6 +50,12 @@ android {
 	buildFeatures {
 		compose = true
 	}
+
+	testOptions {
+		unitTests{
+			isIncludeAndroidResources = true
+		}
+	}
 }
 
 dependencies {
@@ -61,10 +67,10 @@ dependencies {
 
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.appcompat)
-	implementation(libs.material)
+	implementation(libs.com.google.android.material)
 	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.androidx.material3)
-	implementation(libs.androidx.ui.tooling.preview)
+	implementation(libs.androidx.compose.material3)
+	implementation(libs.androidx.compose.ui.tooling.preview)
 	implementation(libs.androidx.navigation.compose)
 	implementation(libs.hilt.android)
 	implementation(libs.threetenabp)
@@ -75,8 +81,6 @@ dependencies {
 
 	implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-	implementation (libs.androidx.security.crypto)
-
 	implementation (libs.google.api.client.android)
 	implementation (libs.google.api.services.drive)
 
@@ -85,17 +89,26 @@ dependencies {
 	implementation(libs.androidx.credentials.play.services.auth)
 	implementation(libs.play.services.auth)
 
+
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
+	androidTestImplementation(libs.androidx.test.core)
+	androidTestImplementation(libs.androidx.test.rules)
+	androidTestImplementation(libs.androidx.test.runner)
+
 	androidTestImplementation(libs.androidx.espresso.core)
 
-	androidTestImplementation(libs.ui.test.junit4)
-	debugImplementation(libs.ui.test.manifest)
+	androidTestImplementation(libs.hilt.android.testing)
+
+	androidTestImplementation(libs.androidx.compose.ui.test)
+	testImplementation(libs.androidx.compose.ui.test.junit4)
+	androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
 	testImplementation(libs.mockito.core)
 	testImplementation(libs.mockito.kotlin)
 	testImplementation(libs.mockk)
 
-	testImplementation(libs.kotlinx.coroutines.test.v164)
-	androidTestImplementation(libs.androidx.work.testing)
+	testImplementation(libs.robolectric)
+
+	testImplementation(libs.kotlinx.coroutines.test)
 }

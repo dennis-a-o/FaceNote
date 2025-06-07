@@ -15,3 +15,7 @@
 local.properties
 FaceNote.7z
 .7z
+/app/src/main/res/raw/credentials.json
+.gitZ
+.kotlin
+.idea

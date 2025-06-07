@@ -1,7 +1,6 @@
 package com.example.facenote.core.drive.di
 
 import android.content.Context
-import com.google.api.client.googleapis.extensions.android.accounts.GoogleAccountManager
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.http.HttpRequest
@@ -28,7 +27,7 @@ object DriveModule {
 
 		val credential = GoogleAccountCredential
 			.usingOAuth2(context,listOf(DriveScopes.DRIVE_FILE))
-		credential.selectedAccount = credential.allAccounts[0]
+		credential.selectedAccount = if(credential.allAccounts.isNotEmpty())credential.allAccounts[0] else null
 
 		return Drive.Builder(
 			GoogleNetHttpTransport.newTrustedTransport(),

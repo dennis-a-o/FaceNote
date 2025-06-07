@@ -140,7 +140,7 @@ private fun Context.createNotificationChannel(){
 		val reminderChannel = NotificationChannel(
 			REMINDER_CHANNEL_ID,
 			"Notes reminder",
-			NotificationManager.IMPORTANCE_DEFAULT
+			NotificationManager.IMPORTANCE_HIGH
 		).apply {
 			description = "Notifications for note reminders"
 			enableLights(true)
@@ -150,7 +150,7 @@ private fun Context.createNotificationChannel(){
 		val backupChannel = NotificationChannel(
 			BACKUP_CHANNEL_ID,
 			"Notes backup",
-			NotificationManager.IMPORTANCE_UNSPECIFIED
+			NotificationManager.IMPORTANCE_LOW
 		).apply {
 			description = "Notifications for note backup"
 			enableLights(false)

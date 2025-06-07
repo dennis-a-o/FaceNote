@@ -30,7 +30,7 @@ class SettingsViewModel @Inject constructor(
 		}
 	}
 
-	private fun getTheme(){
+	fun getTheme(){
 		viewModelScope.launch {
 			val theme = settingRepository.getTheme().first()
 			_themeState.value = theme

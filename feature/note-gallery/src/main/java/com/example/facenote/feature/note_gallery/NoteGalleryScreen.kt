@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -83,7 +84,10 @@ fun NoteGalleryScreen(
 								contentDescription = stringResource(R.string.send)
 							)
 						}
-						IconButton(onClick = { showDeleteConfirmDialog = true }) {
+						IconButton(
+							onClick = { showDeleteConfirmDialog = true },
+							modifier = Modifier.testTag("delete")
+						) {
 							Icon(
 								painter = painterResource(R.drawable.ic_delete_outline),
 								contentDescription = stringResource(R.string.delete)
@@ -116,6 +120,7 @@ fun NoteGalleryScreen(
 						Text(stringResource(R.string.delete))
 					}
 				},
+				modifier = Modifier.testTag("confirmDialog"),
 				dismissButton = {
 					TextButton(onClick = { showDeleteConfirmDialog = false }) {
 						Text(stringResource(R.string.cancel))
@@ -128,7 +133,7 @@ fun NoteGalleryScreen(
 }
 
 @Composable
-private fun NoteGalleryPager(
+internal fun NoteGalleryPager(
 	images: List<NoteImage>,
 	pagerState: PagerState
 ){

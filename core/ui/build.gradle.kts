@@ -38,12 +38,14 @@ android {
 
 dependencies {
 	implementation(project(":core:model"))
-	implementation(libs.material3)
+	implementation(libs.androidx.core.ktx)
+	implementation(libs.androidx.compose.material3)
 	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.ui)
-	implementation(libs.ui.tooling.preview)
-	debugImplementation(libs.ui.tooling)
-	debugImplementation(libs.ui.test.manifest)
+	implementation(libs.androidx.compose.ui)
+	implementation(libs.androidx.compose.ui.tooling.preview)
+	implementation(libs.accompanist.systemuicontroller)
+	implementation(libs.androidx.compose.ui.tooling)
+	implementation(libs.androidx.compose.ui.test.manifest)
 	implementation(libs.google.gson)
 	implementation(libs.threetenabp)
 }

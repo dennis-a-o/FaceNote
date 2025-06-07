@@ -52,7 +52,7 @@ dependencies {
 
 	androidTestImplementation (libs.androidx.core)
 	androidTestImplementation (libs.core.ktx)
-	androidTestImplementation (libs.androidx.runner)
+	androidTestImplementation (libs.androidx.test.runner)
 
 	testImplementation(libs.junit)
 	testImplementation(libs.kotlinx.coroutines.test)

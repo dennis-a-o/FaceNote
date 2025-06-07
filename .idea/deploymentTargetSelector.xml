@@ -21,10 +21,16 @@
           </targets>
         </DialogSelection>
       </SelectionState>
-      <SelectionState runConfigName="FaceNoteDatabaseTest">
+      <SelectionState runConfigName="firstScreen_isNotes()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="noteDao_data_inserted_should_be_same_fetched()">
+      <SelectionState runConfigName="navigationDrawer_navigateToOtherScreenThenBack()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="navigationDrawer_whenNavigateToOtherScreenThenBack_returnToPreviousScreen()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="homeDestination_back_quitsApp()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

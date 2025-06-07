@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -155,6 +156,7 @@ private fun NoteSearchBar(
 				onSearch = onSearch,
 				expanded = expanded,
 				onExpandedChange = onExpandedChange,
+				modifier = Modifier.testTag("searchInput"),
 				placeholder = {
 					Text(
 						text = stringResource(R.string.search),
@@ -174,16 +176,20 @@ private fun NoteSearchBar(
 				trailingIcon = {
 					Row {
 						if (query.isNotEmpty()) {
-							IconButton(onClick = { onQueryChange("") }) {
+							IconButton(
+								onClick = { onQueryChange("") },
+								modifier = Modifier.testTag("clearQuery")
+							) {
 								Icon(
 									painter = painterResource(R.drawable.ic_close),
 									contentDescription = stringResource(R.string.clear_search)
 								)
 							}
 						}
-						IconButton(onClick = {
-							onSearch(query)
-						}) {
+						IconButton(
+							onClick = { onSearch(query) },
+							modifier = Modifier.testTag("searchButton")
+						) {
 							Icon(
 								painterResource(R.drawable.ic_search),
 								contentDescription = stringResource(R.string.search)
@@ -195,7 +201,8 @@ private fun NoteSearchBar(
 		},
 		expanded = expanded,
 		onExpandedChange = onExpandedChange,
-		modifier = Modifier.shadow(elevation = 1.dp , shape = RectangleShape),
+		modifier = Modifier
+			.shadow(elevation = 1.dp , shape = RectangleShape),
 		colors = SearchBarDefaults.colors(
 			containerColor = MaterialTheme.colorScheme.surface,
 			dividerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -207,7 +214,9 @@ private fun NoteSearchBar(
 @Composable
 private fun NoSearchResult(){
 	Column(
-		modifier = Modifier.fillMaxSize(),
+		modifier = Modifier
+			.testTag("noSearchResult")
+			.fillMaxSize(),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally
 	){

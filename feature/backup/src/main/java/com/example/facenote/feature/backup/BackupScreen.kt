@@ -145,7 +145,7 @@ fun BackupScreen(
 					onShowRestoreView = { viewModel.showBackupFiles(true)},
 					onClickSignOut = { viewModel.logout() },
 					onClickSignIn = {
-						launcherActivity.launch(viewModel.googleSignInClient.signInIntent)
+						launcherActivity.launch(viewModel.getSignInIntent())
 					},
 					onClickCancel = { viewModel.cancel() }
 				)
@@ -155,7 +155,7 @@ fun BackupScreen(
 }
 
 @Composable
-private fun BackupView(
+internal fun BackupView(
 	backupState: BackupState,
 	onClickBackup: () -> Unit,
 	onShowRestoreView: () -> Unit,
@@ -168,6 +168,7 @@ private fun BackupView(
 			.fillMaxSize()
 			.padding(16.dp)
 			.verticalScroll(rememberScrollState())
+
 	){
 		Text(
 			text = stringResource(R.string.backup_description),
@@ -282,7 +283,7 @@ private fun BackupView(
 }
 
 @Composable
-private fun RestoreView(
+internal fun RestoreView(
 	backupState: BackupState,
 	onClickRetry: () -> Unit,
 	onClickDelete: (String) -> Unit,
@@ -348,6 +349,24 @@ private fun RestoreView(
 					message = backupState.filesError,
 					onAction =  onClickRetry
 				)
+			}else{
+				if(backupState.files == null) {
+					Column(
+						modifier = Modifier.fillMaxWidth(),
+						verticalArrangement = Arrangement.Center,
+						horizontalAlignment = Alignment.CenterHorizontally
+					) {
+						Icon(
+							painter = painterResource(R.drawable.ic_backup_outlined),
+							contentDescription = null,
+							modifier = Modifier
+								.size(100.dp),
+							tint = MaterialTheme.colorScheme.primary
+						)
+						Spacer(Modifier.height(8.dp))
+						Text(stringResource(R.string.no_backup))
+					}
+				}
 			}
 		}
 	}

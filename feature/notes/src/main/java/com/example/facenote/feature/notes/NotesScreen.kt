@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,11 +41,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -90,6 +89,7 @@ fun NotesScreen (
 				closeDrawer = { scope.launch {  drawerState.close() } }
 			)
 		},
+		modifier = Modifier.testTag("notesScreen"),
 		drawerState = drawerState,
 	) {
 		Scaffold (
@@ -143,6 +143,7 @@ fun NotesScreen (
 					else -> {
 						LazyVerticalStaggeredGrid(
 							columns = StaggeredGridCells.Fixed(count = if (isGrid) 2 else 1),
+							modifier = Modifier.testTag("notesList"),
 							contentPadding = PaddingValues(8.dp),
 							horizontalArrangement = Arrangement.spacedBy(8.dp),
 							verticalItemSpacing = 8.dp
@@ -182,7 +183,9 @@ private fun DrawerContent(
 	closeDrawer: () -> Unit
 ){
 	ModalDrawerSheet (
-		modifier = Modifier.fillMaxWidth(0.8f),
+		modifier = Modifier
+			.testTag("notesDrawer")
+			.fillMaxWidth(0.8f),
 	){
 		DrawerLogo(
 			modifier = Modifier
@@ -286,7 +289,10 @@ private fun NotesTopBar(
 		title = { },
 		modifier = Modifier.shadow(1.dp),
 		navigationIcon = {
-			IconButton(onClick = onClickShowDrawer) {
+			IconButton(
+				onClick = onClickShowDrawer,
+				modifier = Modifier.testTag("showDrawerButton")
+			) {
 				Icon(
 					painter = painterResource(R.drawable.ic_menu),
 					contentDescription = null
@@ -327,6 +333,7 @@ private fun NotesFloatingActionButton(
 
 	FloatingActionButton(
 		onClick = { expanded = true },
+		modifier = Modifier.testTag("floatingButton"),
 		containerColor = MaterialTheme.colorScheme.primary,
 		contentColor = MaterialTheme.colorScheme.surfaceContainerLowest
 	){

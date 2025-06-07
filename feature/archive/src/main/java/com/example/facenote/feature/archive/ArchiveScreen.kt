@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -91,6 +92,7 @@ fun ArchiveScreen(
 					if (lazyPagingArchiveNotes.itemCount != 0) {
 						LazyVerticalStaggeredGrid(
 							columns = StaggeredGridCells.Fixed(count = if (isGrid) 2 else 1),
+							modifier = Modifier.testTag("archiveList"),
 							contentPadding = PaddingValues(8.dp),
 							horizontalArrangement = Arrangement.spacedBy(8.dp),
 							verticalItemSpacing = 8.dp
@@ -129,7 +131,7 @@ fun ArchiveScreen(
 @Composable
 private fun NoArchive(){
 	Column(
-		modifier = Modifier.fillMaxSize(),
+		modifier = Modifier.testTag("noArchive").fillMaxSize(),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally
 	){

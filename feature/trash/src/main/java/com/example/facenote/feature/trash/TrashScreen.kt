@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -130,7 +131,7 @@ fun TrashScreen(
 @Composable
 private fun NoTrash(){
 	Column(
-		modifier = Modifier.fillMaxSize(),
+		modifier = Modifier.testTag("noTrash").fillMaxSize(),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally
 	){
@@ -165,6 +166,7 @@ fun TrashSelectTobBar(
 					Text(stringResource(R.string.delete))
 				}
 			},
+			modifier = Modifier.testTag("confirmDialog"),
 			dismissButton = {
 				TextButton(onClick = { onCancel(); showDeleteDialog = false }) {
 					Text(stringResource(R.string.cancel))
@@ -196,7 +198,10 @@ fun TrashSelectTobBar(
 					contentDescription = null
 				)
 			}
-			IconButton(onClick = { showDeleteDialog = true }) {
+			IconButton(
+				onClick = { showDeleteDialog = true },
+				modifier = Modifier.testTag("deleteTrash")
+			) {
 				Icon(
 					painter = painterResource(R.drawable.ic_delete_outline),
 					contentDescription = null

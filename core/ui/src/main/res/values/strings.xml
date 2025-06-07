@@ -32,7 +32,7 @@
     <string name="color">Color</string>
     <string name="background">Background</string>
     <string name="format">Format</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="delete_this_note">Delete this note forever?</string>
     <string name="delete_forever">Delete forever</string>
     <string name="back">Back</string>
@@ -57,4 +57,5 @@
     <string name="emmpty">Empty</string>
     <string name="empty_trash_q">Empty trash?</string>
     <string name="all_notes_in_trash_will_be">All notes in the trash will bw permanently deleted</string>
+    <string name="no_backup">No backups found</string>
 </resources>
