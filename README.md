@@ -61,13 +61,9 @@ for anyone who like to keep notes/todolist on daily basis.
 | Notes                                                  | Notes Navigation                                     | Note Text                                     |
 |--------------------------------------------------------|------------------------------------------------------|-----------------------------------------------|
 | ![Notes Screen](screenshots/Notes.png)                 | ![Navigation Drawer](screenshots/NoteDrawer.png)     | ![NoteText Screen](screenshots/NoteText.png)  |
-| ------------------------------------------------------ | ---------------------------------------------------- | --------------------------------------------- |
 | Note Checklist                                         | Backup                                               | Restore                                       |
-| ------------------------------------------------------ | ---------------------------------------------------- | --------------------------------------------- |
 | ![NoteChecklist Screen](screenshots/NoteChecklist.png) | ![Backup Screen](screenshots/Backup.png)             | ![Restore Screen](screenshots/Restore.png)    |
-|                                                        |                                                      |                                               |
 | Reminder                                               | Background sheet                                     | Format sheet                                  |
-| ------------------------------------------------------ | ---------------------------------------------------- | --------------------------------------------- |
 | ![Reminder Screen](screenshots/Reminder.png)           | ![Background Sheet](screenshots/BackgroundSheet.png) | ![Format Sheet](screenshots/FormatSheet.png)  |
 |                                                        |                                                      |                                               |
 
